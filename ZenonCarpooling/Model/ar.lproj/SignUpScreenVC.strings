@@ -1,0 +1,24 @@
+
+/* Class = "UITextField"; placeholder = "Last Name"; ObjectID = "FXQ-Ii-4zG"; */
+"FXQ-Ii-4zG.placeholder" = "إسم العائلة";
+
+/* Class = "UITextField"; placeholder = "First Name"; ObjectID = "Lvb-ob-0Su"; */
+"Lvb-ob-0Su.placeholder" = "الإسم الاول";
+
+/* Class = "UITextField"; placeholder = "Password"; ObjectID = "QbV-da-CPg"; */
+"QbV-da-CPg.placeholder" = "كلمة السر";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "gSg-Kq-iW5"; */
+"gSg-Kq-iW5.text" = "Label";
+
+/* Class = "UITextField"; placeholder = "Mobile Number"; ObjectID = "v3B-Ay-6XC"; */
+"v3B-Ay-6XC.placeholder" = "رقم الموبايل";
+
+/* Class = "UIButton"; normalTitle = "Sign Up"; ObjectID = "vD1-uz-TBK"; */
+"vD1-uz-TBK.normalTitle" = "تسجيل";
+
+/* Class = "UITextField"; placeholder = "Email"; ObjectID = "wK4-qC-HkJ"; */
+"wK4-qC-HkJ.placeholder" = "البريد الالكتروني";
+
+/* Class = "UILabel"; text = "By signing up you agree to our term and conditions."; ObjectID = "wM7-Xb-dR7"; */
+"wM7-Xb-dR7.text" = "عندما تقوم بالتسجيل فإنك توافق على الشروط و الأحكام الخاصة بنا";

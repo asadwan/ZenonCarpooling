@@ -1,0 +1,18 @@
+
+/* Class = "UILabel"; text = "Not a member yet?"; ObjectID = "7Tr-aX-Qhr"; */
+"7Tr-aX-Qhr.text" = "Not a member yet?";
+
+/* Class = "UIButton"; normalTitle = "Login"; ObjectID = "DRq-fe-RMz"; */
+"DRq-fe-RMz.normalTitle" = "SIGN IN";
+
+/* Class = "UIButton"; normalTitle = "Sign Up"; ObjectID = "IwC-pg-RvY"; */
+"IwC-pg-RvY.normalTitle" = "REGISTER";
+
+/* Class = "UITextField"; placeholder = "Password"; ObjectID = "bdS-Up-u2h"; */
+"bdS-Up-u2h.placeholder" = "PASSWORD";
+
+/* Class = "UITextField"; placeholder = "Email"; ObjectID = "jQR-Ri-WC1"; */
+"jQR-Ri-WC1.placeholder" = "EMAIL";
+
+/* Class = "UIButton"; normalTitle = "Recover Password"; ObjectID = "pvZ-u0-cqe"; */
+"pvZ-u0-cqe.normalTitle" = "Forget password?";

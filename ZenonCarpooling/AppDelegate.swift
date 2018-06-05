@@ -7,15 +7,41 @@
 //
 
 import UIKit
+import Firebase
+import FBSDKCoreKit
+import GoogleMaps
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        FirebaseApp.configure()
+        
+        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        GMSServices.provideAPIKey("AIzaSyDG0aWxboNl0XLudAwqzX8aaiS3VszzQY0")
+        
+        self.window = UIWindow(frame: UIScreen.main.bounds)
+        let navController = UINavigationController()
+        let mainVC = TabBarVC()
+        navController.viewControllers = [mainVC]
+        window?.rootViewController = navController
+        window?.makeKeyAndVisible()
+        
+        let uberBlack = UIColor(displayP3Red: 9/255.5, green: 9/255.5, blue: 26/255.5, alpha: 1.0)
+        let lightGrey = UIColor(displayP3Red: 230/255.5, green: 230/255.5, blue: 230/255.5, alpha: 1.0)
+        UINavigationBar.appearance().barTintColor = uberBlack
+        UINavigationBar.appearance().isTranslucent = false
+        UINavigationBar.appearance().clipsToBounds = false
+        UINavigationBar.appearance().alpha = 1.0
+        UINavigationBar.appearance().tintColor = lightGrey
+        UINavigationBar.appearance().titleTextAttributes = [NSAttributedStringKey.foregroundColor : lightGrey]
+        
+        UITabBar.appearance().barTintColor = uberBlack
+        UITabBar.appearance().isTranslucent = false
+        UITabBar.appearance().tintColor = lightGrey
+        
         return true
     }
 
