@@ -17,4 +17,6 @@ pod 'libPhoneNumber-iOS', '~> 0.8'
 
 pod 'GoogleMaps'
 
+pod 'DateTimePicker'
+
 end

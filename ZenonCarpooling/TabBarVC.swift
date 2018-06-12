@@ -19,23 +19,24 @@ class TabBarVC: UITabBarController, FBSDKLoginButtonDelegate {
     }
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         
         navigationItem.title = "Find a Ride"
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "settings-icon"), style: .plain, target: self, action: #selector(presentSettingsVC))
         
-        super.viewDidLoad()
-        self.tabBar.barStyle = UIBarStyle.blackOpaque
+        
+        //elf.tabBar.barStyle = UIBarStyle.blackOpaque
         
         //tabBarItem 1
-        let vc1 = ViewController(nibName: "ViewController", bundle: nil)
-        vc1.tabBarItem = UITabBarItem(title: "Rides", image: #imageLiteral(resourceName: "my_rides"), tag: 1)
+        let vc1 = MyRidesVC(nibName: "MyRidesVC", bundle: nil)
+        vc1.tabBarItem = UITabBarItem(title: "My Rides", image: #imageLiteral(resourceName: "my_rides"), tag: 1)
 
         //tabBarItem 2
         let vc2 = SearchRideVC(nibName: "SearchRideVC", bundle: nil)
         vc2.tabBarItem = UITabBarItem(title: "Search", image: #imageLiteral(resourceName: "search_rides"), tag: 2)
 
         //tabBarItem 3
-        let vc3 = ViewController(nibName: "ViewController", bundle: nil)
+        let vc3 = OfferRideVC(nibName: "OfferRideVC", bundle: nil)
         vc3.tabBarItem = UITabBarItem(title: "Offer", image: #imageLiteral(resourceName: "add_ride"), tag: 3)
         
         //tabBarItem 4

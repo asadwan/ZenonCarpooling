@@ -41,8 +41,11 @@
 		E1A116B120B981F100757070 /* AppSettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A116AF20B981F100757070 /* AppSettingsVC.swift */; };
 		E1A116B220B981F100757070 /* AppSettingsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1A116B020B981F100757070 /* AppSettingsVC.xib */; };
 		E1A116B520B9964A00757070 /* ProfileSettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A116B420B9964A00757070 /* ProfileSettingsCell.swift */; };
+		E1E7BBF220CFF36F00FC3C4B /* MyRidesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E7BBF020CFF36F00FC3C4B /* MyRidesVC.swift */; };
+		E1E7BBF320CFF36F00FC3C4B /* MyRidesVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1E7BBF120CFF36F00FC3C4B /* MyRidesVC.xib */; };
 		E1F662F420C6F367003F7FA8 /* OfferRideVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F662F220C6F367003F7FA8 /* OfferRideVC.swift */; };
 		E1F662F520C6F367003F7FA8 /* OfferRideVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1F662F320C6F367003F7FA8 /* OfferRideVC.xib */; };
+		E1F662F720C72037003F7FA8 /* Ride.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F662F620C72037003F7FA8 /* Ride.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -92,8 +95,11 @@
 		E1A116AF20B981F100757070 /* AppSettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsVC.swift; sourceTree = "<group>"; };
 		E1A116B020B981F100757070 /* AppSettingsVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AppSettingsVC.xib; sourceTree = "<group>"; };
 		E1A116B420B9964A00757070 /* ProfileSettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsCell.swift; sourceTree = "<group>"; };
+		E1E7BBF020CFF36F00FC3C4B /* MyRidesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyRidesVC.swift; sourceTree = "<group>"; };
+		E1E7BBF120CFF36F00FC3C4B /* MyRidesVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyRidesVC.xib; sourceTree = "<group>"; };
 		E1F662F220C6F367003F7FA8 /* OfferRideVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferRideVC.swift; sourceTree = "<group>"; };
 		E1F662F320C6F367003F7FA8 /* OfferRideVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OfferRideVC.xib; sourceTree = "<group>"; };
+		E1F662F620C72037003F7FA8 /* Ride.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ride.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,6 +197,8 @@
 				E15F0E8720BC9C83007C1965 /* SearchRideVC.xib */,
 				E1F662F220C6F367003F7FA8 /* OfferRideVC.swift */,
 				E1F662F320C6F367003F7FA8 /* OfferRideVC.xib */,
+				E1E7BBF020CFF36F00FC3C4B /* MyRidesVC.swift */,
+				E1E7BBF120CFF36F00FC3C4B /* MyRidesVC.xib */,
 			);
 			name = "Controllers ";
 			sourceTree = "<group>";
@@ -207,6 +215,7 @@
 			isa = PBXGroup;
 			children = (
 				E1973BEE20AF02B8002F8ECB /* ZenonUser.swift */,
+				E1F662F620C72037003F7FA8 /* Ride.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -290,6 +299,7 @@
 			files = (
 				E179112A20BAEF9F000FB92A /* ProfileImageTableCell.xib in Resources */,
 				E1973C0A20B570A5002F8ECB /* SignUpScreenVC.xib in Resources */,
+				E1E7BBF320CFF36F00FC3C4B /* MyRidesVC.xib in Resources */,
 				E138F99C20AEADCB00325CB1 /* LaunchScreen.storyboard in Resources */,
 				E179111E20BAD501000FB92A /* ProfileSettingsCell.xib in Resources */,
 				E15F0E8920BC9C83007C1965 /* SearchRideVC.xib in Resources */,
@@ -355,6 +365,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-ZenonCarpooling/Pods-ZenonCarpooling-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
+				"${BUILT_PRODUCTS_DIR}/DateTimePicker/DateTimePicker.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
@@ -366,6 +377,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DateTimePicker.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
@@ -394,11 +406,13 @@
 				E179112920BAEF9F000FB92A /* ProfileImageTableCell.swift in Sources */,
 				E1973BF220AF051D002F8ECB /* RecoverPasswordScreenVC.swift in Sources */,
 				E15F0E8820BC9C83007C1965 /* SearchRideVC.swift in Sources */,
+				E1E7BBF220CFF36F00FC3C4B /* MyRidesVC.swift in Sources */,
 				E1973BE720AEE083002F8ECB /* SignUpScreenVC.swift in Sources */,
 				E179111B20BACD47000FB92A /* ShowOrEditProfileVC.swift in Sources */,
 				E138F9A920AEB05400325CB1 /* LoginScreenVC.swift in Sources */,
 				E179112C20BB0B7E000FB92A /* LunchScreen.swift in Sources */,
 				E1973BEC20AEF1ED002F8ECB /* Extenstions.swift in Sources */,
+				E1F662F720C72037003F7FA8 /* Ride.swift in Sources */,
 				E1A116B120B981F100757070 /* AppSettingsVC.swift in Sources */,
 				E179112520BAEF87000FB92A /* ProfileInfoTableCell.swift in Sources */,
 				E138F99220AEADCA00325CB1 /* AppDelegate.swift in Sources */,
@@ -586,7 +600,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S86GR4539G;
 				INFOPLIST_FILE = ZenonCarpooling/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -606,7 +620,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S86GR4539G;
 				INFOPLIST_FILE = ZenonCarpooling/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

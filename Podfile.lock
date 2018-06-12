@@ -5,6 +5,7 @@ PODS:
   - Bolts/AppLinks (1.9.0):
     - Bolts/Tasks
   - Bolts/Tasks (1.9.0)
+  - DateTimePicker (1.2.1)
   - FBSDKCoreKit (4.30.0):
     - Bolts (~> 1.7)
   - FBSDKLoginKit (4.30.0):
@@ -67,6 +68,7 @@ PODS:
   - nanopb/encode (0.3.8)
 
 DEPENDENCIES:
+  - DateTimePicker
   - FBSDKLoginKit
   - Firebase/Auth
   - Firebase/Core
@@ -77,6 +79,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
+  DateTimePicker: c7b10f7dfe6eb06014c88df964a0a994f246b791
   FBSDKCoreKit: 7c4bba2877781a131ab5d54c0a78c405d4307b62
   FBSDKLoginKit: fe7a7e82373dc5daad92e1623219e86224ab1fb1
   Firebase: 632216af3ed7f31e3be34776947fdc7546cfb572
@@ -93,6 +96,6 @@ SPEC CHECKSUMS:
   libPhoneNumber-iOS: e444379ac18bbfbdefad571da735b2cd7e096caa
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
 
-PODFILE CHECKSUM: 532d2328b6c6d0deb577bec5921b77b083407104
+PODFILE CHECKSUM: 35f8940d961f64ff8249fe01d1b85570be4d76c4
 
 COCOAPODS: 1.4.0

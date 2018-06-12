@@ -10,10 +10,12 @@ import Foundation
 import UIKit
 
 class ZenonUser: NSObject {
+    
     var firstName: String
     var lastName: String
     var mobileNumber: Int
     var email: String
+    var birthDate: Date?
     var profileImage: UIImage!
     
     init(firstName: String, lastName: String, mobileNumber: Int, email: String) {
@@ -22,6 +24,4 @@ class ZenonUser: NSObject {
         self.mobileNumber = mobileNumber
         self.email = email
     }
-    
-    
 }
