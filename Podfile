@@ -13,10 +13,12 @@ pod 'Firebase/Storage'
 
 pod 'FBSDKLoginKit'
 
-pod 'libPhoneNumber-iOS', '~> 0.8'
+pod 'libPhoneNumber-iOS'
+pod 'SVProgressHUD'
 
+pod 'GooglePlaces'
 pod 'GoogleMaps'
-
+pod 'GooglePlacePicker'
 pod 'DateTimePicker'
 
 end

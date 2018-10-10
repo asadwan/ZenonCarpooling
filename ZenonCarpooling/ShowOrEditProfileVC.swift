@@ -24,6 +24,7 @@ class ShowOrEditProfileVC: UIViewController, UITableViewDelegate, UITableViewDat
         let lightGrey = UIColor(displayP3Red: 230/255.5, green: 230/255.5, blue: 230/255.5, alpha: 1.0)
         tableView.backgroundColor = lightGrey
         tableView.separatorColor = tableView.backgroundColor
+        //navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = "Profile"
         
         // Set up tableView 

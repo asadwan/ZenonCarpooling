@@ -22,10 +22,14 @@ class TabBarVC: UITabBarController, FBSDKLoginButtonDelegate {
         super.viewDidLoad()
         
         navigationItem.title = "Find a Ride"
+        //navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "settings-icon"), style: .plain, target: self, action: #selector(presentSettingsVC))
         
         
-        //elf.tabBar.barStyle = UIBarStyle.blackOpaque
+        let uid = Auth.auth().currentUser?.uid
+        if uid == nil {
+            handleSignOut()
+        }
         
         //tabBarItem 1
         let vc1 = MyRidesVC(nibName: "MyRidesVC", bundle: nil)
@@ -45,17 +49,11 @@ class TabBarVC: UITabBarController, FBSDKLoginButtonDelegate {
 
         
         self.viewControllers = [vc1, vc2, vc3, vc4]
-        self.selectedIndex = 1
-        let uid = Auth.auth().currentUser?.uid
-        if uid == nil {
-            handleSignOut()
-        }
     }
     
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.selectedIndex = 1
         if Auth.auth().currentUser?.uid == nil {
             handleSignOut()
         }

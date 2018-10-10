@@ -33,22 +33,22 @@ class SignUpScreenVC: UIViewController, UITextFieldDelegate {
         
         // set adaptive constraints to UI Elements
         
-        let screenHeight =  UIScreen.main.bounds.height
-        let screenWidth  = UIScreen.main.bounds.width
-
-        signUpStackWidthConstraint.constant = screenWidth * 0.72
-        logoWidthConstraint.constant = screenWidth * 0.26666
-        logoHeightConstraint.constant = screenWidth * 0.26666
-        
-        let signUpButtonWidthMultiplier: CGFloat = 0.64
-        let signUpButtonHeightMultiplier: CGFloat = 0.075
-        
-        if(screenWidth < 375.0) {
-            signUpButtonWidthConstraint.constant = screenWidth  * signUpButtonWidthMultiplier
-            signUpButtonHeightConstraint.constant = screenHeight * signUpButtonHeightMultiplier
-            termAndConditionsLabelBottomSpacingConstraint.constant = 24.0
-            signUpInfoStack.spacing = 24.0
-        }
+//        let screenHeight =  UIScreen.main.bounds.height
+//        let screenWidth  = UIScreen.main.bounds.width
+//
+//        signUpStackWidthConstraint.constant = screenWidth * 0.72
+//        logoWidthConstraint.constant = screenWidth * 0.26666
+//        logoHeightConstraint.constant = screenWidth * 0.26666
+//
+//        let signUpButtonWidthMultiplier: CGFloat = 0.64
+//        let signUpButtonHeightMultiplier: CGFloat = 0.075
+//
+//        if(screenWidth < 375.0) {
+//            signUpButtonWidthConstraint.constant = screenWidth  * signUpButtonWidthMultiplier
+//            signUpButtonHeightConstraint.constant = screenHeight * signUpButtonHeightMultiplier
+//            termAndConditionsLabelBottomSpacingConstraint.constant = 24.0
+//            signUpInfoStack.spacing = 24.0
+//        }
 
         // use haptic feedback
         hapticNotification = UINotificationFeedbackGenerator()
@@ -63,8 +63,8 @@ class SignUpScreenVC: UIViewController, UITextFieldDelegate {
         // Dismiss keyboard when touching anywhere 
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard)))
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: Notification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: Notification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     // MARK: UITextFieldDelegate
@@ -79,7 +79,7 @@ class SignUpScreenVC: UIViewController, UITextFieldDelegate {
     }
     
     @objc func keyboardWillShow(notification: Notification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
                 self.view.frame.origin.y -= keyboardSize.height/2
             }
@@ -139,7 +139,7 @@ class SignUpScreenVC: UIViewController, UITextFieldDelegate {
                     return
                 }
                 
-                Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
+                Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
                     if let signUpError = error {
                         let warningString = signUpError.localizedDescription
                         print(warningString)
@@ -147,7 +147,7 @@ class SignUpScreenVC: UIViewController, UITextFieldDelegate {
                         return
                     }
                     
-                    guard let userId = user?.uid else {
+                    guard let userId = result?.user.uid else {
                         self.presentSignUpWarning(warning: "Somthing went wrong, please try again.")
                         return
                     }

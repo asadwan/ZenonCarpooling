@@ -10,17 +10,19 @@ import UIKit
 import Firebase
 import FBSDKCoreKit
 import GoogleMaps
+import GooglePlaces
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
         
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         GMSServices.provideAPIKey("AIzaSyDG0aWxboNl0XLudAwqzX8aaiS3VszzQY0")
+        GMSPlacesClient.provideAPIKey("AIzaSyAGksxL62tRT3UcWtkTGsCHfHa6KyYkjR0")
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
         let navController = UINavigationController()
@@ -37,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().clipsToBounds = false
         UINavigationBar.appearance().alpha = 1.0
         UINavigationBar.appearance().tintColor = lightGrey
-        UINavigationBar.appearance().titleTextAttributes = [NSAttributedStringKey.foregroundColor : lightGrey]
+        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor : lightGrey]
         
         UITabBar.appearance().barTintColor = uberBlack
         UITabBar.appearance().isTranslucent = false

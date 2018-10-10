@@ -11,6 +11,7 @@ import UIKit
 import AVFoundation
 
 import UIKit
+import GooglePlacePicker
 
 extension Date {
     func dayOfWeek() -> String? {
@@ -31,8 +32,21 @@ extension Date {
         dateFormatter.dateFormat = "hh:mm aa"
         return dateFormatter.string(from: self)
     }
+    
+    static func getDate(dateString: String) -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE, hh:mm aa dd/MM/yyyy"
+        return dateFormatter.date(from: dateString)
+    }
+    
+    func getDateTimeString() -> String? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE, hh:mm aa dd/MM/yyyy"
+        return dateFormatter.string(from: self)
+    }
 }
 
+@IBDesignable
 extension UIView {
     
     @IBInspectable var cornerRadius: CGFloat {
@@ -122,19 +136,13 @@ extension UITextField {
             return self.placeHolderColor
         }
         set {
-            self.attributedPlaceholder = NSAttributedString(string:self.placeholder != nil ? self.placeholder! : "", attributes:[NSAttributedStringKey.foregroundColor: newValue!])
+            self.attributedPlaceholder = NSAttributedString(string:self.placeholder != nil ? self.placeholder! : "", attributes:[NSAttributedString.Key.foregroundColor: newValue!])
         }
     }
 }
 extension UITabBarController {
-    open override var childViewControllerForStatusBarStyle: UIViewController? {
+    open override var childForStatusBarStyle: UIViewController? {
         return selectedViewController
-    }
-}
-
-extension UINavigationController {
-    open override var childViewControllerForStatusBarStyle: UIViewController? {
-        return visibleViewController
     }
 }
 
@@ -167,7 +175,7 @@ extension UIColor {
                 }
             }
         }
-        
+
         return nil
     }
 }
@@ -175,6 +183,7 @@ extension UIColor {
 public enum UIButtonBorderSide {
     case Top, Bottom, Left, Right
 }
+
 extension UIButton {
     
     public func addBorder(side: UIButtonBorderSide, color: UIColor, width: CGFloat) {
@@ -228,5 +237,30 @@ extension UITextField{
     @objc func doneButtonAction()
     {
         self.resignFirstResponder()
+    }
+}
+
+extension UITabBarController {
+    
+    open override var childForStatusBarHidden: UIViewController? {
+        return self.selectedViewController
+    }
+    
+}
+
+extension UINavigationController {
+    
+    open override var childForStatusBarHidden : UIViewController? {
+        return self.topViewController
+    }
+    
+    open override var childForStatusBarStyle : UIViewController? {
+        return self.topViewController
+    }
+}
+
+extension GMSPlacePickerViewController {
+    open override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
 }

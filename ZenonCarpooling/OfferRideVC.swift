@@ -9,8 +9,10 @@
 import UIKit
 import DateTimePicker
 import Firebase
+import GoogleMaps
+import GooglePlacePicker
 
-class OfferRideVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, DateTimePickerDelegate {
+class OfferRideVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, DateTimePickerDelegate, GMSPlacePickerViewControllerDelegate {
     
     // MARK: - Properties
     
@@ -72,8 +74,8 @@ class OfferRideVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSourc
         warningLabel.isHidden = true
         
         //Keyboard show/hide events obervers
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: Notification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: Notification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
         inboundTripAvailableSeatsStackView.isHidden = true
         inboundTripDateAndTimeStackView.isHidden = true
@@ -94,6 +96,11 @@ class OfferRideVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSourc
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.navigationItem.title = "Offer a Ride"
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        tabBarController?.selectedViewController = self
     }
     
     // MARK: - UIPickerViewDataSource
@@ -128,6 +135,18 @@ class OfferRideVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSourc
         }
     }
     
+    // MARK: - GMSPlacePickerViewControllerDelegate
+    
+    func placePicker(_ viewController: GMSPlacePickerViewController, didPick place: GMSPlace) {
+        
+    }
+    
+    func placePickerDidCancel(_ viewController: GMSPlacePickerViewController) {
+        viewController.dismiss(animated: true, completion: nil)
+    }
+    
+    
+    
     // MARK: - Private Methods
     
     private func populateCityNeighborhoodList() {
@@ -148,7 +167,7 @@ class OfferRideVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSourc
     // MARK: - Actions and Handlers
     
     @objc func keyboardWillShow(notification: Notification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
                 self.view.frame.origin.y -= keyboardSize.height/2
             }
@@ -188,6 +207,11 @@ class OfferRideVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSourc
     }
     
     @IBAction func handleDoneWithPickingLocation(_ sender: Any) {
+        let config = GMSPlacePickerConfig(viewport: nil)
+        let placePicker = GMSPlacePickerViewController(config: config)
+        placePicker.delegate = self
+        present(placePicker, animated: true, completion: nil)
+        
         pickersContainerBottonSpacingConstraint.constant = 300
         let selectedCityRow = cityPickerView.selectedRow(inComponent: 0)
         let selectedNeighbothoodRow = neighborhoodPickerView.selectedRow(inComponent: 0)
@@ -279,6 +303,7 @@ class OfferRideVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSourc
             self.presentWarning("Somthing went wrong, please try again.")
             return
         }
+    
         posterId = uid
         rideId = NSUUID().uuidString
         let isRoundTrip = self.isRoundTrip ? "Yes": "No"
@@ -290,9 +315,9 @@ class OfferRideVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSourc
         
         var rideInfo = [String:Any]()
         if (self.isRoundTrip) {
-            rideInfo = ["posterId":posterId!, "leavingFromCity": leavingFromCity!, "leavingFromNeighborhood": leavingFromNeighborhood!, "goingToCity": goingToCity!, "goingToNeighborhood": goingToNeighborhood!, "isRoundTrip": isRoundTrip, "outboundRideWeekday": outboundRideDateAndTime!.dayOfWeek()!, "inboundRideWeekday": inboundRideDateAndTime!.dayOfWeek()!, "outboundRideDate": outboundRideDateAndTime!.getDateString()! ,"inboundRideDate": inboundRideDateAndTime!.getDateString()!, "outboundRideTime": outboundRideDateAndTime!.getTimeString()! , "inboundRideTime": inboundRideDateAndTime!.getTimeString()! , "outboundRideNumberOfOfferedSeats": outboundRideOfferedSeats!, "inboundRideNumberOfOfferedSeats": inboundRideOfferedSeats!, "pricePerSeat": pricePerSeat!, "maxWaitTime": maxWaitTime!, "outboundRideAvailableSeats": outboundRideOfferedSeats!, "inboundRideAvailableSeats": inboundRideOfferedSeats!]
+            rideInfo = ["posterId":posterId!, "leavingFromCity": leavingFromCity!, "leavingFromNeighborhood": leavingFromNeighborhood!, "goingToCity": goingToCity!, "goingToNeighborhood": goingToNeighborhood!, "isRoundTrip": isRoundTrip, "outboundRideWeekday": outboundRideDateAndTime!.dayOfWeek()!, "inboundRideWeekday": inboundRideDateAndTime!.dayOfWeek()!, "outboundRideDate": outboundRideDateAndTime!.getDateString()! ,"inboundRideDate": inboundRideDateAndTime!.getDateString()!, "outboundRideTime": outboundRideDateAndTime!.getTimeString()! , "inboundRideTime": inboundRideDateAndTime!.getTimeString()! , "outboundRideNumberOfOfferedSeats": outboundRideOfferedSeats!, "inboundRideNumberOfOfferedSeats": inboundRideOfferedSeats!, "pricePerSeat": pricePerSeat!, "maxWaitingTime": maxWaitTime!, "outboundRideAvailableSeats": outboundRideOfferedSeats!, "inboundRideAvailableSeats": inboundRideOfferedSeats!]
         } else {
-            rideInfo = ["posterId":posterId!, "leavingFromCity": leavingFromCity!, "leavingFromNeighborhood": leavingFromNeighborhood!, "goingToCity": goingToCity!, "goingToNeighborhood": goingToNeighborhood!, "isRoundTrip": isRoundTrip, "rideWeekday": outboundRideDateAndTime!.dayOfWeek()!, "rideDate": outboundRideDateAndTime!.getDateString()!, "rideTime": outboundRideDateAndTime!.getTimeString()! , "rideNumberOfOfferedSeats": outboundRideOfferedSeats!, "pricePerSeat": pricePerSeat!, "maxWaitTime": maxWaitTime!, "rideAvailableSeats": outboundRideOfferedSeats!]
+            rideInfo = ["posterId":posterId!, "leavingFromCity": leavingFromCity!, "leavingFromNeighborhood": leavingFromNeighborhood!, "goingToCity": goingToCity!, "goingToNeighborhood": goingToNeighborhood!, "isRoundTrip": isRoundTrip, "outboundRideWeekday": outboundRideDateAndTime!.dayOfWeek()!, "outboundRideDate": outboundRideDateAndTime!.getDateString()!, "outboundRideTime": outboundRideDateAndTime!.getTimeString()! , "outboundRideNumberOfOfferedSeats": outboundRideOfferedSeats!, "pricePerSeat": pricePerSeat!, "maxWaitingTime": maxWaitTime!, "outboundRideAvailableSeats": outboundRideOfferedSeats!]
         }
         
         rideRef.updateChildValues(rideInfo)
@@ -307,10 +332,11 @@ class OfferRideVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSourc
     }
     
     fileprivate func presentDateTimePicker(for trip: String) {
-        let min = Date().addingTimeInterval(-60 * 60 * 24 * 365)
+        let min = Date().addingTimeInterval(-1)
         let max = Date().addingTimeInterval(60 * 60 * 24 * 365)
         
-        let picker = DateTimePicker.show(selected: Date(), minimumDate: min, maximumDate: max)
+        let picker = DateTimePicker.create(minimumDate: min, maximumDate: max)
+        picker.show()
         picker.timeInterval = DateTimePicker.MinuteInterval.five
         if #available(iOS 11.0, *) {
             picker.highlightColor = UIColor(named: "uberBlue")!

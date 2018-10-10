@@ -28,12 +28,11 @@ class AppSettingsVC: UITableViewController {
         super.viewDidLoad()
         tableView.register(UINib(nibName: "ProfileSettingsCell", bundle: nil), forCellReuseIdentifier: "ProfileSettingsCell")
         tableView.register(UINib(nibName: "SettingsTableCell", bundle: nil), forCellReuseIdentifier: "SettingsTableCell")
-        //let lightGrey = UIColor(displayP3Red: 230/255.5, green: 230/255.5, blue: 230/255.5, alpha: 1.0)
-        //view.backgroundColor = lightGrey
+        //navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = "Settings"
         chooseLanguage()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(restoreStatusBarColor), name:Notification.Name.UIWindowDidResignKey, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(restoreStatusBarColor), name:UIWindow.didResignKeyNotification, object: nil)
     }
 
     // MARK: - Table view data source

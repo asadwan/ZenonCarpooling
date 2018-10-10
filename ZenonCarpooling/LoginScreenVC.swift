@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import FBSDKCoreKit
 import FBSDKLoginKit
+import SVProgressHUD
 
 class LoginScreenVC: UIViewController, UITextFieldDelegate, FBSDKLoginButtonDelegate {
 
@@ -33,23 +34,10 @@ class LoginScreenVC: UIViewController, UITextFieldDelegate, FBSDKLoginButtonDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        SVProgressHUD.setDefaultStyle(.light)
         hapticNotification = UINotificationFeedbackGenerator()
         errorsLabel.isHidden = true
         continueWithFacebookButton.readPermissions = ["public_profile", "email"]
-        
-        // Constraints
-        let screenHeight =  UIScreen.main.bounds.height
-        let screenWidth  = UIScreen.main.bounds.width
-        let loginButtonWidthMultiplier: CGFloat = 0.64
-        let loginButtonHeightMultiplier: CGFloat = 0.075
-        loginInfoStackWidthConstraint.constant = screenWidth * 0.75
-        if(screenWidth < 375.0) {
-            loginButtonWidthConstraint.constant = screenWidth  * loginButtonWidthMultiplier
-            loginButtonHeightConstraint.constant = screenHeight * loginButtonHeightMultiplier
-            signInInfoStack.spacing = 20.0
-            signUpStackBottomSpacingConstraint.constant = 20.0
-        }
         
         emailTextField.delegate = self
         passwordTestField.delegate = self
@@ -68,8 +56,8 @@ class LoginScreenVC: UIViewController, UITextFieldDelegate, FBSDKLoginButtonDele
         loginButton.layer.masksToBounds = false
         continueWithFacebookButton.layer.masksToBounds = false
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: Notification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: Notification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
     }
     
@@ -120,7 +108,7 @@ class LoginScreenVC: UIViewController, UITextFieldDelegate, FBSDKLoginButtonDele
     }
     
     @objc func keyboardWillShow(notification: Notification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0{
                 self.view.frame.origin.y -= keyboardSize.height/2
             }
@@ -136,10 +124,12 @@ class LoginScreenVC: UIViewController, UITextFieldDelegate, FBSDKLoginButtonDele
     
 
     @IBAction func handleLogIn(_ sender: Any) {
+        SVProgressHUD.show()
         errorsLabel.isHidden = true
         if let email = emailTextField.text, let password = passwordTestField.text {
             Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
                 if let signInError = error {
+                    SVProgressHUD.dismiss()
                     self.errorsLabel.text = signInError.localizedDescription
                     self.errorsLabel.isHidden = false
                     self.hapticNotification.notificationOccurred(.error)
@@ -159,6 +149,7 @@ class LoginScreenVC: UIViewController, UITextFieldDelegate, FBSDKLoginButtonDele
                     let mobileNumber = infoDict?["mobileNumber"] as? Int ?? 0000
                     self.zUser = ZenonUser(firstName: firstName, lastName: lastName, mobileNumber: mobileNumber, email: email)
                 })
+                SVProgressHUD.dismiss()
                 self.dismissKeyboard()
                 self.dismiss(animated: true, completion: nil)
             }
@@ -173,6 +164,7 @@ class LoginScreenVC: UIViewController, UITextFieldDelegate, FBSDKLoginButtonDele
     @IBAction func handleRecoverPassword(_ sender: Any) {
         let recoverPasswordVC = RecoverPasswordScreenVC(nibName: "RecoverPasswordScreenVC", bundle: nil)
         present(recoverPasswordVC, animated: true, completion: nil)
+
     }
 
 }
