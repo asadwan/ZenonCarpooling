@@ -8,62 +8,143 @@
 
 import Foundation
 import Firebase
+import Localize_Swift
 typealias JSONDictionary = [String:Any]
 
-class Ride: NSObject {
+class Ride {
     
-    var rideId: String!
-    var leavingFromCity: String!
-    var leavingFromNeighborhood: String!
-    var goingToCity: String!
-    var goingToNeighborhood: String!
-    var inboundRideDateAndTime: Date?
-    var outboundRideDateAndTime: Date!
-    var isRoundTrip: Bool!
-    var inboundRideNumberOfOfferedSeats: Int?
-    var inboundRideAvailableSeats: Int?
-    var outboundRideNumberOfOfferedSeats: Int!
-    var outboundRideAvailableSeats: Int!
-    var pricePerSeat: Float32!
-    var maxWaitingTime: Int!
+    private var observer: NSObjectProtocol!
+    
+    var rideId: String?
+    var leavingFromCity: String?
+    var leavingFromNeighborhood: String?
+    var fromLatitude: Double?
+    var fromLongitude: Double?
+    var goingToCity: String?
+    var goingToNeighborhood: String?
+    var toLatitude: Double?
+    var toLongitude: Double?
+    var dateAndTime: Date?
+    var offeredSeats: Int?
+    var availableSeats: Int?
+    var pricePerSeat: Float?
+    var maxWaitingTime: Int?
     var ridersIds: [String] = [String]()
-    var posterId: String!
+    var posterId: String?
     
-    override init() {
-        super.init()
-    }
+    
+    var toCity = ""
+    var toNeigborhood = ""
+    var fromCity = ""
+    var fromNeigborhood = ""
+    
     
     public static func createRideObjectWith(rideInfo: JSONDictionary, rideId: String) -> Ride {
         let ride = Ride()
-        let isRoundTripString = rideInfo["isRoundTrip"] as! String
-        let isRoundTrip = isRoundTripString == "Yes" ? true : false
         
         ride.rideId = rideId
-        ride.leavingFromCity = rideInfo["leavingFromCity"] as? String
-        ride.leavingFromNeighborhood = rideInfo["leavingFromNeighborhood"] as? String
-        ride.goingToCity = rideInfo["goingToCity"] as? String
-        ride.goingToNeighborhood = rideInfo["goingToNeighborhood"] as? String
-        let outboundRideTime = rideInfo["outboundRideTime"] as? String
-        let outboundRideWeekday = rideInfo["outboundRideWeekday"] as? String
-        let outboundRideDate = rideInfo["outboundRideDate"] as? String
-        ride.outboundRideDateAndTime  = Date.getDate(dateString: "\(outboundRideWeekday!), \(outboundRideTime!) \(outboundRideDate!)")!
-        ride.outboundRideNumberOfOfferedSeats = rideInfo["outboundRideNumberOfOfferedSeats"] as? Int
-        ride.outboundRideAvailableSeats = rideInfo["outboundRideAvailableSeats"] as? Int
+        ride.leavingFromCity = rideInfo["fromCity"] as? String
+        ride.leavingFromNeighborhood = rideInfo["fromNeighborhood"] as? String
+        ride.goingToCity = rideInfo["toCity"] as? String
+        ride.goingToNeighborhood = rideInfo["toNeighborhood"] as? String
+        ride.dateAndTime  = Date.getDate(dateString: rideInfo["dateAndTime"] as! String)!
+        ride.offeredSeats = rideInfo["offeredSeats"] as? Int
+        ride.availableSeats = rideInfo["availableSeats"] as? Int
         ride.maxWaitingTime = rideInfo["maxWaitingTime"] as? Int
-        ride.pricePerSeat = rideInfo["pricePerSeat"] as? Float32
+        ride.pricePerSeat = rideInfo["pricePerSeat"] as? Float
         ride.posterId = rideInfo["posterId"] as? String
+        ride.fromLatitude = rideInfo["fromLatitude"] as? Double
+        ride.fromLongitude = rideInfo["fromLongitude"] as? Double
+        ride.toLongitude = rideInfo["toLongitude"] as? Double
+        ride.toLatitude = rideInfo["toLatitude"] as? Double
         
-        if !isRoundTrip {
-            return ride
-        }
+        ride.getGoingToCity()
+        ride.getGoingToNeighborhood()
+        ride.getLeavingFromCity()
+        ride.getLeavingFromNeighborhood()
         
-        let inboundRideTime = (rideInfo["inboundRideTime"] as! String)
-        let inboundRideWeekday = (rideInfo["inboundRideWeekday"] as! String)
-        let inboundRideDate = (rideInfo["inboundRideDate"] as! String)
-        ride.outboundRideDateAndTime  = Date.getDate(dateString: "\(inboundRideWeekday), \(inboundRideTime) \(inboundRideDate)")!
-        ride.inboundRideNumberOfOfferedSeats = (rideInfo["inboundRideNumberOfOfferedSeats"] as! Int)
-        ride.inboundRideAvailableSeats = (rideInfo["inboundRideAvailableSeats"] as! Int)
+//        ride.observer = NotificationCenter.default.addObserver(forName: Notification.Name(LCLLanguageChangeNotification), object: nil, queue: .main, using: { (notification) in
+//            ride.getGoingToCity()
+//            ride.getGoingToNeighborhood()
+//            ride.getLeavingFromCity()
+//            ride.getLeavingFromNeighborhood()
+//        })
         
         return ride
+    }
+    
+    public static func toRideJson(ride: Ride) -> JSONDictionary {
+        var rideJson = JSONDictionary()
+        
+        rideJson["rideId"] = ride.rideId
+        rideJson["posterId"] = ride.posterId
+        rideJson["fromCity"] = ride.leavingFromCity
+        rideJson["fromNeighborhood"] = ride.leavingFromNeighborhood
+        rideJson["fromLongitude"] = ride.fromLongitude
+        rideJson["fromLatitude"] = ride.fromLatitude
+        rideJson["toCity"] = ride.goingToCity
+        rideJson["toNeighborhood"] = ride.goingToNeighborhood
+        rideJson["toLongitude"] = ride.toLongitude
+        rideJson["toLatitude"] = ride.toLatitude
+        rideJson["dateAndTime"] = ride.dateAndTime?.getDateTimeString()
+        rideJson["offeredSeats"] = ride.offeredSeats
+        rideJson["availableSeats"] = ride.availableSeats
+        rideJson["maxWaitingTime"] = ride.maxWaitingTime
+        rideJson["pricePerSeat"] = ride.pricePerSeat
+        rideJson["ridersIds"] = []
+        
+        return rideJson
+    }
+    
+    public func getLeavingFromNeighborhood() {
+        let neigborhoodRef = Database.database().reference().child("locations").child(leavingFromCity!).child("neighborhoods").child(leavingFromNeighborhood!)
+        neigborhoodRef.observeSingleEvent(of: .value) { (snapshot) in
+            if let neighborhoodInfo = snapshot.value as? JSONDictionary {
+                if(Localize.currentLanguage() == "ar") {
+                    self.fromNeigborhood = neighborhoodInfo["arabicName"] as! String
+                } else {
+                    self.fromNeigborhood = neighborhoodInfo["englishName"] as! String
+                }
+            }
+        }
+    }
+    
+    public func getLeavingFromCity() {
+        let cityRef = Database.database().reference().child("locations").child(leavingFromCity!)
+        cityRef.observeSingleEvent(of: .value) { (snapshot) in
+            if let cityInfo = snapshot.value as? JSONDictionary {
+                if(Localize.currentLanguage() == "ar") {
+                    self.fromCity = cityInfo["arabicName"] as! String
+                } else {
+                    self.fromCity = cityInfo["englishName"] as! String
+                }
+            }
+        }
+    }
+    
+    public func getGoingToNeighborhood() {
+        let neigborhoodRef = Database.database().reference().child("locations").child(goingToCity!).child("neighborhoods").child(goingToNeighborhood!)
+        neigborhoodRef.observeSingleEvent(of: .value) { (snapshot) in
+            if let neighborhoodInfo = snapshot.value as? JSONDictionary {
+                if(Localize.currentLanguage() == "ar") {
+                    self.toNeigborhood = neighborhoodInfo["arabicName"] as! String
+                } else {
+                    self.toNeigborhood = neighborhoodInfo["englishName"] as! String
+                }
+            }
+        }
+    }
+    
+    public func getGoingToCity() {
+        let cityRef = Database.database().reference().child("locations").child(goingToCity!)
+        cityRef.observeSingleEvent(of: .value) { (snapshot) in
+            if let cityInfo = snapshot.value as? JSONDictionary {
+                if(Localize.currentLanguage() == "ar") {
+                    self.toCity = cityInfo["arabicName"] as! String
+                } else {
+                    self.toCity = cityInfo["englishName"] as! String
+                }
+            }
+        }
     }
 }

@@ -13,7 +13,7 @@ class RideTableCell: UITableViewCell {
     var ride: Ride!
     @IBOutlet weak var rideFromLabel: UILabel!
     @IBOutlet weak var rideToLabel: UILabel!
-    @IBOutlet weak var rideDateandTimeLabel: UILabel!
+    @IBOutlet weak var rideDateAndTimeLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
 //        rideFromLabel.text = "\(ride.leavingFromNeighborhood) - \(ride.leavingFromCity)"

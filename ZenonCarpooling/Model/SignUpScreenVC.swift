@@ -30,25 +30,6 @@ class SignUpScreenVC: UIViewController, UITextFieldDelegate {
     var hapticNotification: UINotificationFeedbackGenerator!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // set adaptive constraints to UI Elements
-        
-//        let screenHeight =  UIScreen.main.bounds.height
-//        let screenWidth  = UIScreen.main.bounds.width
-//
-//        signUpStackWidthConstraint.constant = screenWidth * 0.72
-//        logoWidthConstraint.constant = screenWidth * 0.26666
-//        logoHeightConstraint.constant = screenWidth * 0.26666
-//
-//        let signUpButtonWidthMultiplier: CGFloat = 0.64
-//        let signUpButtonHeightMultiplier: CGFloat = 0.075
-//
-//        if(screenWidth < 375.0) {
-//            signUpButtonWidthConstraint.constant = screenWidth  * signUpButtonWidthMultiplier
-//            signUpButtonHeightConstraint.constant = screenHeight * signUpButtonHeightMultiplier
-//            termAndConditionsLabelBottomSpacingConstraint.constant = 24.0
-//            signUpInfoStack.spacing = 24.0
-//        }
 
         // use haptic feedback
         hapticNotification = UINotificationFeedbackGenerator()
@@ -152,13 +133,29 @@ class SignUpScreenVC: UIViewController, UITextFieldDelegate {
                         return
                     }
                     
-                    let dbRef = Database.database().reference(fromURL: "https://zenoncarpooling.firebaseio.com/")
-                    let usersListRef = dbRef.child("users")
-                    let userRef = usersListRef.child(userId)
+                    let storageRef = Storage.storage().reference().child("usersProfilePics").child(userId)
+                    let imageData = UIImage(named: "profile-pic")?.jpegData(compressionQuality: 0.1)
                     
-                    let userInfo = ["firstName":firstname, "lastName": lastName, "email": email, "password": password, "mobileNumber": formattedMobileNumber]
-                    userRef.updateChildValues(userInfo)
-                    self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: nil)
+                    storageRef.putData(imageData!, metadata: nil, completion: { (metadata, error) in
+                        storageRef.downloadURL(completion: { (url, error) in
+                            if let downloadUrl = url {
+                                let path = downloadUrl.absoluteString
+                                let usersListRef = dbRef.child("users")
+                                let userRef = usersListRef.child(userId)
+                                
+                                let userInfo = ["profilePicLink" : path ,"id": userId ,"firstName":firstname, "lastName": lastName, "email": email, "mobileNumber": formattedMobileNumber]
+                                userRef.updateChildValues(userInfo)
+                                self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: nil)
+                            } else {
+                                DispatchQueue.main.async {
+                                    print(error.debugDescription)
+                                    self.presentSignUpWarning(warning: "Somthing went wrong, please try againnn.")
+                                }
+                            }
+                        })
+                    })
+                    
+                    
                 }
         }
     }

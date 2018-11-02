@@ -9,44 +9,62 @@
 import Foundation
 import UIKit
 import AVFoundation
-
+import Localize_Swift
 import UIKit
 import GooglePlacePicker
 
 extension Date {
     func dayOfWeek() -> String? {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "EEEE"
-        return dateFormatter.string(from: self).capitalized
-        // or use capitalized(with: locale) if you want
+        let selectedLanguage = Localize.currentLanguage()
+        dateFormatter.locale = Locale(identifier: selectedLanguage)
+        dateFormatter.dateFormat = "E"
+        return dateFormatter.string(from: self)
     }
     
     func getDateString() -> String? {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd/MM/yyyy"
+        let selectedLanguage = Localize.currentLanguage()
+        dateFormatter.locale = Locale(identifier: selectedLanguage)
+        dateFormatter.dateFormat = "MMM, d"
         return dateFormatter.string(from: self)
     }
     
     func getTimeString() -> String? {
         let dateFormatter = DateFormatter()
+        let selectedLanguage = Localize.currentLanguage()
+        dateFormatter.locale = Locale(identifier: selectedLanguage)
         dateFormatter.dateFormat = "hh:mm aa"
         return dateFormatter.string(from: self)
     }
     
     static func getDate(dateString: String) -> Date? {
         let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en")
         dateFormatter.dateFormat = "EEEE, hh:mm aa dd/MM/yyyy"
         return dateFormatter.date(from: dateString)
     }
     
+    func getLocalizedDateTimeString() -> String? {
+        let dateFormatter = DateFormatter()
+        let selectedLanguage = Localize.currentLanguage()
+        dateFormatter.locale = Locale(identifier: selectedLanguage)
+        dateFormatter.dateStyle = .short
+        dateFormatter.timeStyle = .short
+        dateFormatter.doesRelativeDateFormatting = true
+        dateFormatter.formattingContext = .standalone
+        return dateFormatter.string(from: self)
+    }
+    
     func getDateTimeString() -> String? {
         let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en")
         dateFormatter.dateFormat = "EEEE, hh:mm aa dd/MM/yyyy"
         return dateFormatter.string(from: self)
     }
 }
 
-@IBDesignable
+
 extension UIView {
     
     @IBInspectable var cornerRadius: CGFloat {
@@ -246,6 +264,8 @@ extension UITabBarController {
         return self.selectedViewController
     }
     
+    
+    
 }
 
 extension UINavigationController {
@@ -264,3 +284,11 @@ extension GMSPlacePickerViewController {
         return .lightContent
     }
 }
+
+extension UISearchController {
+    open override func viewDidLoad() {
+        searchBar.tintColor = .white
+        
+    }
+}
+

@@ -11,6 +11,7 @@ import Firebase
 import FBSDKCoreKit
 import GoogleMaps
 import GooglePlaces
+import Localize_Swift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,18 +22,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
-        GMSServices.provideAPIKey("AIzaSyDG0aWxboNl0XLudAwqzX8aaiS3VszzQY0")
-        GMSPlacesClient.provideAPIKey("AIzaSyAGksxL62tRT3UcWtkTGsCHfHa6KyYkjR0")
+        GMSServices.provideAPIKey("AIzaSyDbOqj8iT07nS37umqcPwkLtTk7B3XqDOk")
+        GMSPlacesClient.provideAPIKey("AIzaSyDbOqj8iT07nS37umqcPwkLtTk7B3XqDOk")
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
-        let navController = UINavigationController()
-        let mainVC = TabBarVC()
-        navController.viewControllers = [mainVC]
-        window?.rootViewController = navController
+        
+        if(Auth.auth().currentUser == nil) {
+            let loginVC = LoginScreenVC()
+            window?.rootViewController = loginVC
+        } else {
+            let navController = UINavigationController()
+            let mainVC = TabBarVC()
+            navController.viewControllers = [mainVC]
+            window?.rootViewController = navController
+        }
         window?.makeKeyAndVisible()
         
         let uberBlack = UIColor(displayP3Red: 9/255.5, green: 9/255.5, blue: 26/255.5, alpha: 1.0)
-        //let uberBlack = UIColor.init(hexString: "#09091a")
         let lightGrey = UIColor(displayP3Red: 230/255.5, green: 230/255.5, blue: 230/255.5, alpha: 1.0)
         UINavigationBar.appearance().barTintColor = uberBlack
         UINavigationBar.appearance().isTranslucent = false
@@ -44,6 +50,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UITabBar.appearance().barTintColor = uberBlack
         UITabBar.appearance().isTranslucent = false
         UITabBar.appearance().tintColor = lightGrey
+        
+        
+        if(Localize.currentLanguage() == "ar") {
+            UIView.appearance().semanticContentAttribute = .forceRightToLeft
+        } else {
+            UIView.appearance().semanticContentAttribute = .forceLeftToRight
+        }
         
         return true
     }

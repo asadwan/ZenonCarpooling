@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="hUv-Tc-Y2e">
-                                <rect key="frame" x="94" y="240" width="187.5" height="187.5"/>
+                                <rect key="frame" x="112.5" y="258.5" width="150" height="150"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="hUv-Tc-Y2e" secondAttribute="height" multiplier="1:1" id="Td2-uB-58N"/>
                                 </constraints>
@@ -28,7 +28,7 @@
                         <color key="backgroundColor" red="0.035294117649999998" green="0.035294117649999998" blue="0.1019607843" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="tintColor" red="0.035294117649999998" green="0.035294117649999998" blue="0.1019607843" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="hUv-Tc-Y2e" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" multiplier="0.5" id="Evd-u3-yTD"/>
+                            <constraint firstItem="hUv-Tc-Y2e" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" multiplier="1:2.5" id="Evd-u3-yTD"/>
                             <constraint firstItem="hUv-Tc-Y2e" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="KFD-HK-oi3"/>
                             <constraint firstItem="hUv-Tc-Y2e" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="rFE-5D-kgC"/>
                         </constraints>

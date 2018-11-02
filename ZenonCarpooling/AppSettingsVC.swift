@@ -10,6 +10,7 @@ import UIKit
 import FBSDKCoreKit
 import FBSDKLoginKit
 import Firebase
+import Localize_Swift
 
 class AppSettingsVC: UITableViewController {
     
@@ -28,11 +29,11 @@ class AppSettingsVC: UITableViewController {
         super.viewDidLoad()
         tableView.register(UINib(nibName: "ProfileSettingsCell", bundle: nil), forCellReuseIdentifier: "ProfileSettingsCell")
         tableView.register(UINib(nibName: "SettingsTableCell", bundle: nil), forCellReuseIdentifier: "SettingsTableCell")
-        //navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.title = "Settings"
+        navigationItem.title = "Settings".localized()
         chooseLanguage()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(restoreStatusBarColor), name:UIWindow.didResignKeyNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateUIOnLanguaheChange), name: NSNotification.Name(LCLLanguageChangeNotification), object: nil)
+    
     }
 
     // MARK: - Table view data source
@@ -74,12 +75,12 @@ class AppSettingsVC: UITableViewController {
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsTableCell") as! SettingsTableCell
             if(row == 0) {
-                cell.settingTitleLabel.text = "Language"
+                cell.settingTitleLabel.text = "Language".localized()
                 cell.settingIconImageView.image = #imageLiteral(resourceName: "language-icon")
-                cell.secondaryLabel.text = "English"
+                cell.secondaryLabel.text = Localize.currentLanguage() == "ar" ? "العربية" : "ِEnglish"
                 cell.secondaryLabel.isHidden = false
             } else if (row == 1) {
-                cell.settingTitleLabel.text = "Sign Out"
+                cell.settingTitleLabel.text = "Sign Out".localized()
                 cell.settingIconImageView.image = #imageLiteral(resourceName: "signout-icon")
             }
             return cell
@@ -112,12 +113,12 @@ class AppSettingsVC: UITableViewController {
             if (row == 0) {
                 present(chooseLanguageActionsSheet, animated: true, completion: nil)
             } else if (row == 1) {
-                let signOutAlert = UIAlertController(title: "Sign Out", message: "Are you sure?", preferredStyle: .alert)
+                let signOutAlert = UIAlertController(title: "Sign Out".localized() , message: "Are you sure?".localized(), preferredStyle: .alert)
                 signOutAlert.modalPresentationCapturesStatusBarAppearance = true
-                let signOutAction = UIAlertAction(title: "Yes", style: .destructive) { (_) in
+                let signOutAction = UIAlertAction(title: "Yes".localized(), style: .destructive) { (_) in
                     self.handleSignOut()
                 }
-                let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+                let cancelAction = UIAlertAction(title: "Cancel".localized(), style: .cancel, handler: nil)
                 signOutAlert.addAction(signOutAction)
                 signOutAlert.addAction(cancelAction)
                 present(signOutAlert, animated: true, completion: nil)
@@ -131,8 +132,17 @@ class AppSettingsVC: UITableViewController {
     
     // MARK: - Handlers and Actions
     
-    @objc func restoreStatusBarColor(notification: Notification) {
-        self.setNeedsStatusBarAppearanceUpdate()
+    @objc func updateUIOnLanguaheChange() {
+        if(Localize.currentLanguage() == "ar") {
+            UIView.appearance().semanticContentAttribute = .forceRightToLeft
+        } else {
+            UIView.appearance().semanticContentAttribute = .forceLeftToRight
+        }
+        
+        let splashScreen = SplashScreenVC()
+        splashScreen.modalTransitionStyle = .flipHorizontal
+        present(splashScreen, animated: true, completion: nil)
+        self.navigationController?.popToRootViewController(animated: false)
     }
     
     func handleSignOut() {
@@ -145,9 +155,8 @@ class AppSettingsVC: UITableViewController {
         }
         
         let loginScreen = LoginScreenVC(nibName: "LoginScreenVC", bundle: nil)
-        present(loginScreen, animated: true, completion: nil)
-        
-        navigationController?.popToRootViewController(animated: false)
+        self.view.window?.rootViewController = loginScreen
+        self.view.window?.rootViewController!.dismiss(animated: true, completion: nil)
     }
     
     
@@ -155,20 +164,20 @@ class AppSettingsVC: UITableViewController {
         chooseLanguageActionsSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         chooseLanguageActionsSheet.modalPresentationCapturesStatusBarAppearance = true
         let chooseArabicLanguageAction = UIAlertAction(title: "العربية", style: .default) { _ in
-            UserDefaults.standard.set(["ar","en"], forKey: "AppleLanguages")
+            Localize.setCurrentLanguage("ar")
+            UserDefaults.standard.set("ar", forKey: "i18n_language")
+            UserDefaults.standard.set(["ar"], forKey: "AppleLanguages")
             UserDefaults.standard.synchronize()
-            print("arabic")
         }
         let chooseEnglishLanguageAction = UIAlertAction(title: "English", style: .default) { _ in
-            UserDefaults.standard.set(["en","ar"], forKey: "AppleLanguages")
+            Localize.setCurrentLanguage("en")
+            UserDefaults.standard.set("en", forKey: "i18n_language")
+            UserDefaults.standard.set(["en"], forKey: "AppleLanguages")
             UserDefaults.standard.synchronize()
-            print("english")
         }
-        let cancelchooseLanguageAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
-            print("cancel")
+        let cancelchooseLanguageAction = UIAlertAction(title: "Cancel".localized(), style: .cancel) { _ in
             self.chooseLanguageActionsSheet.dismiss(animated: true, completion: nil)
         }
-        
         chooseLanguageActionsSheet.addAction(chooseArabicLanguageAction)
         chooseLanguageActionsSheet.addAction(chooseEnglishLanguageAction)
         chooseLanguageActionsSheet.addAction(cancelchooseLanguageAction)

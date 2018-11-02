@@ -20,5 +20,6 @@ pod 'GooglePlaces'
 pod 'GoogleMaps'
 pod 'GooglePlacePicker'
 pod 'DateTimePicker'
+pod 'Localize-Swift'
 
 end

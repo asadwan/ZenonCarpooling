@@ -10,9 +10,9 @@ import UIKit
 import DateTimePicker
 import Firebase
 import GoogleMaps
-import GooglePlacePicker
+import SVProgressHUD
 
-class OfferRideVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, DateTimePickerDelegate, GMSPlacePickerViewControllerDelegate {
+class OfferRideVC: UIViewController, DateTimePickerDelegate, PickLocationVCDelegate {
     
     // MARK: - Properties
     
@@ -22,46 +22,27 @@ class OfferRideVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSourc
     
     var hapticNotification = UINotificationFeedbackGenerator()
     
-    @IBOutlet weak var pickersContainerBottonSpacingConstraint: NSLayoutConstraint!
     @IBOutlet weak var inboundTripDateAndTimeStackView: UIStackView!
     @IBOutlet weak var inboundTripAvailableSeatsStackView: UIStackView!
     @IBOutlet weak var inboundTripDateTimeLabel: UILabel!
     @IBOutlet weak var outboundTripDateTimeLabel: UILabel!
     @IBOutlet weak var leavingFromLabel: UILabel!
     @IBOutlet weak var goingToLabel: UILabel!
-    @IBOutlet var cityPickerView: UIPickerView!
-    @IBOutlet var neighborhoodPickerView: UIPickerView!
     @IBOutlet weak var warningLabel: UILabel!
-    
     @IBOutlet weak var maxWaitingTimeLabel: UITextField!
     @IBOutlet weak var pricePerSeatLabel: UITextField!
     @IBOutlet weak var inboundRideNumOfOfferdSeats: UITextField!
     @IBOutlet weak var outboundRideNumOfOfferdSeats: UITextField!
     
-    var listOfCites = [String]()
-    var listOfNeighborhoods = [String]()
-    var listOfLocations = Dictionary<String,[String]>()
     
     var goingToLabelSelected = false
     var leavingFromLabelSelected = false
     var inboundTripDateTimeLabelSelected = false
     var outboundTripDateTimeLabelSelected = false
     
-    var leavingFromCity: String?
-    var leavingFromNeighborhood: String?
-    var goingToCity: String?
-    var goingToNeighborhood: String?
-    var outboundRideDateAndTime: Date?
-    var inboundRideDateAndTime: Date?
-    var isRoundTrip = false
-    var outboundRideOfferedSeats: Int?
-    var inboundRideOfferedSeats: Int?
-    var pricePerSeat: Float?
-    var maxWaitTime: Int?
-    var posterId: String?
-    var ridersIds: [String]?
-    var rideId: String!
-    
+    var outboundRide: Ride = Ride()
+    var inboundRide: Ride = Ride()
+    var isRoundTrip: Bool = false
     
     var dateTimePicker: DateTimePicker?
     
@@ -80,22 +61,23 @@ class OfferRideVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSourc
         inboundTripAvailableSeatsStackView.isHidden = true
         inboundTripDateAndTimeStackView.isHidden = true
         
-        populateCityNeighborhoodList()
-        
         leavingFromLabel.isUserInteractionEnabled = true
         goingToLabel.isUserInteractionEnabled = true
         inboundTripDateTimeLabel.isUserInteractionEnabled = true
         outboundTripDateTimeLabel.isUserInteractionEnabled = true
-        leavingFromLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(presentLocationPickersForLeavingFromLocation)))
-        goingToLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(presentLocationPickersForGoingToLocation)))
+        leavingFromLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(presentLocationPickerForLeavingFromLocation)))
+        goingToLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(presentLocationPickerForGoingToLocation)))
         inboundTripDateTimeLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(presentDateTimePickerForInboundTripDateTime)))
         outboundTripDateTimeLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(presentDateTimePickerForOutboundTripDateTime)))
+        
+        
+        leavingFromLabel.text = "Leaving From".localized()
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tabBarController?.navigationItem.title = "Offer a Ride"
+        tabBarController?.navigationItem.title = "Offer a Ride".localized()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -103,66 +85,7 @@ class OfferRideVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSourc
         tabBarController?.selectedViewController = self
     }
     
-    // MARK: - UIPickerViewDataSource
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if pickerView == cityPickerView {
-            return  listOfCites.count
-        } else {
-            return listOfNeighborhoods.count
-        }
-    }
-    
-    // MARK: - UIPickerViewDelegate
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if pickerView == cityPickerView {
-            return listOfCites[row]
-        } else {
-            return listOfNeighborhoods[row]
-        }
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if pickerView == cityPickerView {
-            setNeighborhoodList(city: listOfCites[row])
-            neighborhoodPickerView.selectRow(0, inComponent: 0, animated: true)
-            self.neighborhoodPickerView.reloadAllComponents()
-        }
-    }
-    
-    // MARK: - GMSPlacePickerViewControllerDelegate
-    
-    func placePicker(_ viewController: GMSPlacePickerViewController, didPick place: GMSPlace) {
-        
-    }
-    
-    func placePickerDidCancel(_ viewController: GMSPlacePickerViewController) {
-        viewController.dismiss(animated: true, completion: nil)
-    }
-    
-    
-    
     // MARK: - Private Methods
-    
-    private func populateCityNeighborhoodList() {
-        let ammanNeighborhoods = ["University of Jordan", "Jabal Amman", "Abdoun", "Shmeisani", "Khlida", "Tabarbour"]
-        let zarqaNeighborhoods = ["Jabal Tariq", "Awajan", "Al betrawi", "Al Wasat Al Tijari", "Jannaa'ah"]
-        
-        listOfLocations["Amman"] = ammanNeighborhoods
-        listOfLocations["Zarqa"] = zarqaNeighborhoods
-        
-        listOfCites = Array(listOfLocations.keys)
-        listOfNeighborhoods = ammanNeighborhoods
-    }
-    
-    private func setNeighborhoodList(city: String) {
-        listOfNeighborhoods = listOfLocations[city] ?? [String]()
-    }
     
     // MARK: - Actions and Handlers
     
@@ -180,20 +103,24 @@ class OfferRideVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSourc
         }
     }
     
-    @objc func presentLocationPickersForGoingToLocation() {
-        pickersContainerBottonSpacingConstraint.constant = 0
+    @objc func presentLocationPickerForGoingToLocation() {
+        let navController = UINavigationController()
+        let locationPickerVC = PickLocationVC()
+        locationPickerVC.delegate = self
+        navController.viewControllers = [locationPickerVC]
+        self.present(navController, animated: true
+            , completion: nil)
         goingToLabelSelected = true
-        UIView.animate(withDuration: 0.4) {
-            self.view.layoutIfNeeded()
-        }
     }
     
-    @objc func presentLocationPickersForLeavingFromLocation() {
-        pickersContainerBottonSpacingConstraint.constant = 0
+    @objc func presentLocationPickerForLeavingFromLocation() {
+        let navController = UINavigationController()
+        let locationPickerVC = PickLocationVC()
+        locationPickerVC.delegate = self
+        navController.viewControllers = [locationPickerVC]
+        self.present(navController, animated: true
+            , completion: nil)
         leavingFromLabelSelected = true
-        UIView.animate(withDuration: 0.4) {
-            self.view.layoutIfNeeded()
-        }
     }
     
     @objc func presentDateTimePickerForInboundTripDateTime() {
@@ -206,32 +133,6 @@ class OfferRideVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSourc
         presentDateTimePicker(for: "Outbound")
     }
     
-    @IBAction func handleDoneWithPickingLocation(_ sender: Any) {
-        let config = GMSPlacePickerConfig(viewport: nil)
-        let placePicker = GMSPlacePickerViewController(config: config)
-        placePicker.delegate = self
-        present(placePicker, animated: true, completion: nil)
-        
-        pickersContainerBottonSpacingConstraint.constant = 300
-        let selectedCityRow = cityPickerView.selectedRow(inComponent: 0)
-        let selectedNeighbothoodRow = neighborhoodPickerView.selectedRow(inComponent: 0)
-        let city = listOfCites[selectedCityRow]
-        let neighborhood = listOfNeighborhoods[selectedNeighbothoodRow]
-        if(leavingFromLabelSelected) {
-            leavingFromCity = city
-            leavingFromNeighborhood = neighborhood
-            leavingFromLabel.text =  "From:  \(neighborhood) - \(city)"
-            leavingFromLabelSelected = false
-        } else if (goingToLabelSelected) {
-            goingToCity = city
-            goingToNeighborhood = neighborhood
-            goingToLabel.text =  "To:  \(neighborhood) - \(city)"
-            goingToLabelSelected = false
-        }
-        UIView.animate(withDuration: 0.4) {
-            self.view.layoutIfNeeded()
-        }
-    }
     
     @IBAction func HandleIsRoundTripSwitchValueChange(_ sender: Any) {
         if let switch_ = sender as? UISwitch {
@@ -250,80 +151,34 @@ class OfferRideVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSourc
         }
     }
     
-    @IBAction func CancelLocationPicking(_ sender: Any) {
-        pickersContainerBottonSpacingConstraint.constant = 300
-        UIView.animate(withDuration: 0.4) {
-            self.view.layoutIfNeeded()
-        }
-    }
-    
     @IBAction func submitRideToDatabase(_ sender: Any) {
-        warningLabel.isHidden = true
-        inboundRideOfferedSeats = Int(inboundRideNumOfOfferdSeats.text!) ?? nil
-        outboundRideOfferedSeats = Int(outboundRideNumOfOfferdSeats.text!) ?? nil
-        pricePerSeat = Float(pricePerSeatLabel.text!) ?? nil
-        maxWaitTime = Int(maxWaitingTimeLabel.text!) ?? nil
-        var warningMessage = ""
-        if goingToCity == nil || leavingFromCity == nil {
-            warningMessage =  "Please select source and destination locations."
-            presentWarning(warningMessage)
-            return
-        } else if outboundRideDateAndTime == nil {
-            warningMessage = "Please provide date and time for the ride."
-            presentWarning(warningMessage)
-            return
-        } else if isRoundTrip && inboundRideDateAndTime == nil {
-            warningMessage = "Please provide date and time for the return ride."
-            presentWarning(warningMessage)
-            return
-        } else if outboundRideOfferedSeats == nil {
-            warningMessage = "Please specify the number of offered seats for the ride."
-            presentWarning(warningMessage)
-            return
-        } else if isRoundTrip && inboundRideOfferedSeats == nil {
-            warningMessage = "Please specify the number of offered seats for the return ride."
-            presentWarning(warningMessage)
-            return
-        } else if pricePerSeat == nil {
-            warningMessage = "Please specify a price per seat for the ride."
-            presentWarning(warningMessage)
-            return
-        } else if maxWaitTime == nil {
-            warningMessage = "Please specify a maximum wait time for the riders of the ride."
-            presentWarning(warningMessage)
-            return
+        inboundRide.offeredSeats = Int(inboundRideNumOfOfferdSeats.text!) ?? nil
+        outboundRide.offeredSeats = Int(outboundRideNumOfOfferdSeats.text!) ?? nil
+        outboundRide.pricePerSeat = Float(pricePerSeatLabel.text!) ?? nil
+        outboundRide.maxWaitingTime = Int(maxWaitingTimeLabel.text!) ?? nil
+        outboundRide.availableSeats = outboundRide.offeredSeats
+        
+        if isInputValid() {
+            FirebaseManager.addNewRide(ride: outboundRide)
+            if(isRoundTrip) {
+                inboundRide.leavingFromCity = outboundRide.goingToCity
+                inboundRide.leavingFromNeighborhood = outboundRide.goingToNeighborhood
+                inboundRide.goingToCity = outboundRide.leavingFromCity
+                inboundRide.goingToNeighborhood = outboundRide.leavingFromNeighborhood
+                inboundRide.pricePerSeat = outboundRide.pricePerSeat
+                inboundRide.maxWaitingTime = outboundRide.maxWaitingTime
+                inboundRide.availableSeats = inboundRide.offeredSeats
+                inboundRide.toLatitude = outboundRide.fromLatitude
+                inboundRide.toLongitude = outboundRide.fromLongitude
+                inboundRide.fromLatitude = outboundRide.toLatitude
+                inboundRide.fromLongitude = outboundRide.toLongitude
+                FirebaseManager.addNewRide(ride: inboundRide)
+            }
+            SVProgressHUD.showSuccess(withStatus: "   Done   ")
         }
-        submitRideToDatabase()
     }
     
     // MARK: - Private Methods
-    
-    private func submitRideToDatabase() {
-        guard let uid = Auth.auth().currentUser?.uid else {
-            self.presentWarning("Somthing went wrong, please try again.")
-            return
-        }
-    
-        posterId = uid
-        rideId = NSUUID().uuidString
-        let isRoundTrip = self.isRoundTrip ? "Yes": "No"
-        
-        let dbRef = Database.database().reference(fromURL: "https://zenoncarpooling.firebaseio.com/")
-        let ridesListRef = dbRef.child("rides")
-        let currentUserRef = dbRef.child("users").child(posterId!)
-        let rideRef = ridesListRef.child(rideId)
-        
-        var rideInfo = [String:Any]()
-        if (self.isRoundTrip) {
-            rideInfo = ["posterId":posterId!, "leavingFromCity": leavingFromCity!, "leavingFromNeighborhood": leavingFromNeighborhood!, "goingToCity": goingToCity!, "goingToNeighborhood": goingToNeighborhood!, "isRoundTrip": isRoundTrip, "outboundRideWeekday": outboundRideDateAndTime!.dayOfWeek()!, "inboundRideWeekday": inboundRideDateAndTime!.dayOfWeek()!, "outboundRideDate": outboundRideDateAndTime!.getDateString()! ,"inboundRideDate": inboundRideDateAndTime!.getDateString()!, "outboundRideTime": outboundRideDateAndTime!.getTimeString()! , "inboundRideTime": inboundRideDateAndTime!.getTimeString()! , "outboundRideNumberOfOfferedSeats": outboundRideOfferedSeats!, "inboundRideNumberOfOfferedSeats": inboundRideOfferedSeats!, "pricePerSeat": pricePerSeat!, "maxWaitingTime": maxWaitTime!, "outboundRideAvailableSeats": outboundRideOfferedSeats!, "inboundRideAvailableSeats": inboundRideOfferedSeats!]
-        } else {
-            rideInfo = ["posterId":posterId!, "leavingFromCity": leavingFromCity!, "leavingFromNeighborhood": leavingFromNeighborhood!, "goingToCity": goingToCity!, "goingToNeighborhood": goingToNeighborhood!, "isRoundTrip": isRoundTrip, "outboundRideWeekday": outboundRideDateAndTime!.dayOfWeek()!, "outboundRideDate": outboundRideDateAndTime!.getDateString()!, "outboundRideTime": outboundRideDateAndTime!.getTimeString()! , "outboundRideNumberOfOfferedSeats": outboundRideOfferedSeats!, "pricePerSeat": pricePerSeat!, "maxWaitingTime": maxWaitTime!, "outboundRideAvailableSeats": outboundRideOfferedSeats!]
-        }
-        
-        rideRef.updateChildValues(rideInfo)
-        currentUserRef.child("offeredRides").childByAutoId().updateChildValues(["rideId": rideId])
-        
-    }
     
     fileprivate func presentWarning(_ warningMessage: String) {
         warningLabel.text = warningMessage
@@ -354,17 +209,52 @@ class OfferRideVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSourc
             let formatter = DateFormatter()
             formatter.dateFormat = "hh:mm aa dd/MM/YYYY"
             if(self.outboundTripDateTimeLabelSelected) {
-                self.outboundRideDateAndTime = date
+                self.outboundRide.dateAndTime = date
                 self.outboundTripDateTimeLabel.text = formatter.string(from: date)
                 self.outboundTripDateTimeLabelSelected = false
             } else if (self.inboundTripDateTimeLabelSelected) {
-                self.inboundRideDateAndTime = date
+                self.inboundRide.dateAndTime = date
                 self.inboundTripDateTimeLabelSelected = false
                 self.inboundTripDateTimeLabel.text  = formatter.string(from: date)
             }
         }
         picker.delegate = self
         self.dateTimePicker = picker
+    }
+    
+    private func isInputValid() -> Bool {
+        warningLabel.isHidden = true
+        var warningMessage = ""
+        if outboundRide.goingToCity == nil || outboundRide.leavingFromCity == nil {
+            warningMessage =  "Please select source and destination locations."
+            presentWarning(warningMessage)
+            return false
+        } else if outboundRide.dateAndTime == nil {
+            warningMessage = "Please provide date and time for the ride."
+            presentWarning(warningMessage)
+            return false
+        } else if isRoundTrip && inboundRide.dateAndTime == nil {
+            warningMessage = "Please provide date and time for the return ride."
+            presentWarning(warningMessage)
+            return false
+        } else if outboundRide.offeredSeats == nil {
+            warningMessage = "Please specify the number of offered seats for the ride."
+            presentWarning(warningMessage)
+            return false
+        } else if isRoundTrip && inboundRide.offeredSeats == nil {
+            warningMessage = "Please specify the number of offered seats for the return ride."
+            presentWarning(warningMessage)
+            return false
+        } else if outboundRide.pricePerSeat == nil {
+            warningMessage = "Please specify a price per seat for the ride."
+            presentWarning(warningMessage)
+            return false
+        } else if outboundRide.maxWaitingTime == nil {
+            warningMessage = "Please specify a maximum wait time for the riders of the ride."
+            presentWarning(warningMessage)
+            return false
+        }
+        return true
     }
     
     // MARK: - DateTimePickerDelegate
@@ -374,6 +264,29 @@ class OfferRideVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSourc
             outboundTripDateTimeLabel.text = picker.selectedDateString
         } else if inboundTripDateTimeLabelSelected {
             inboundTripDateTimeLabel.text = picker.selectedDateString
+        }
+    }
+    
+    // MARK: - PickLocationVCDeleagte
+    
+    func didFinishPickingLocation(location: Location) {
+        if(leavingFromLabelSelected) {
+            outboundRide.leavingFromCity = location.cityFirDBKey
+            outboundRide.leavingFromNeighborhood = location.neighborhoodFirDBKey
+            outboundRide.fromLatitude = location.coordinates.latitude.magnitude
+            outboundRide.fromLongitude = location.coordinates.longitude.magnitude
+            leavingFromLabel.text =  "From:  \(location.neighborhood) - \(location.city)"
+            leavingFromLabelSelected = false
+        } else if (goingToLabelSelected) {
+            outboundRide.goingToCity = location.cityFirDBKey
+            outboundRide.goingToNeighborhood = location.neighborhoodFirDBKey
+            outboundRide.toLatitude = location.coordinates.latitude.magnitude
+            outboundRide.toLongitude = location.coordinates.longitude.magnitude
+            goingToLabel.text =  "To:  \(location.neighborhood) - \(location.city)"
+            goingToLabelSelected = false
+        }
+        UIView.animate(withDuration: 0.4) {
+            self.view.layoutIfNeeded()
         }
     }
 }

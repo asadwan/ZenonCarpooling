@@ -28,8 +28,6 @@ class LoginScreenVC: UIViewController, UITextFieldDelegate, FBSDKLoginButtonDele
     @IBOutlet weak var signInInfoStack: UIStackView!
     @IBOutlet weak var continueWithFacebookButton: FBSDKLoginButton!
     
-    var zUser: ZenonUser!
-    
     var hapticNotification: UINotificationFeedbackGenerator!
     
     override func viewDidLoad() {
@@ -139,19 +137,13 @@ class LoginScreenVC: UIViewController, UITextFieldDelegate, FBSDKLoginButtonDele
                     return
                 }
                 
-                let uid = Auth.auth().currentUser?.uid
-                let userInfoRef = Database.database().reference().child("users").child(uid!)
-                userInfoRef.observeSingleEvent(of: .value, with: { (snapshot) in
-                    let infoDict = snapshot.value as? [String: Any]
-                    let firstName = infoDict?["firstName"] as? String ?? ""
-                    let lastName = infoDict?["lastName"] as? String ?? ""
-                    let email = infoDict?["email"] as? String ?? ""
-                    let mobileNumber = infoDict?["mobileNumber"] as? Int ?? 0000
-                    self.zUser = ZenonUser(firstName: firstName, lastName: lastName, mobileNumber: mobileNumber, email: email)
-                })
                 SVProgressHUD.dismiss()
+                let tabBarVC = TabBarVC()
+                let navController = UINavigationController()
+                navController.viewControllers = [tabBarVC]
+                tabBarVC.modalTransitionStyle = .flipHorizontal
                 self.dismissKeyboard()
-                self.dismiss(animated: true, completion: nil)
+                self.present(navController, animated: true, completion: nil)
             }
         }
     }

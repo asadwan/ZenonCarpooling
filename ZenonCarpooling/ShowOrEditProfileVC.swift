@@ -25,7 +25,7 @@ class ShowOrEditProfileVC: UIViewController, UITableViewDelegate, UITableViewDat
         tableView.backgroundColor = lightGrey
         tableView.separatorColor = tableView.backgroundColor
         //navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.title = "Profile"
+        navigationItem.title = "Profile".localized()
         
         // Set up tableView 
         tableView.delegate = self
@@ -69,16 +69,16 @@ class ShowOrEditProfileVC: UIViewController, UITableViewDelegate, UITableViewDat
             userInfoRef.observe(.value) { (snapshot) in
                 if let userInfo = snapshot.value as? [String:Any] {
                     if(row == 0) {
-                        cell.infoKeyLabel.text = "First Name"
+                        cell.infoKeyLabel.text = "First Name".localized()
                         cell.infoValueLabel.text = userInfo["firstName"] as? String ?? "--"
                     } else if (row == 1) {
-                        cell.infoKeyLabel.text = "Last Name"
+                        cell.infoKeyLabel.text = "Last Name".localized()
                         cell.infoValueLabel.text = userInfo["lastName"] as? String ?? "--"
                     } else if row == 2 {
-                        cell.infoKeyLabel.text = "Mobile Number"
+                        cell.infoKeyLabel.text = "Mobile Number".localized()
                         cell.infoValueLabel.text = userInfo["mobileNumber"] as? String ?? "--"
                     } else if row == 3 {
-                        cell.infoKeyLabel.text = "Email"
+                        cell.infoKeyLabel.text = "Email".localized()
                         cell.infoValueLabel.text = userInfo["email"] as? String ?? "--"
                     }
                 }

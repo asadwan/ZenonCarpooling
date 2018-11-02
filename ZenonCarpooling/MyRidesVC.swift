@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import SVProgressHUD
+import Localize_Swift
 
 class MyRidesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FirebaseManagerDelegate {
     
@@ -23,7 +24,6 @@ class MyRidesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, F
         return .lightContent
     }
     
-    private let refreshControl = UIRefreshControl()
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var offeredRidesRequestedRidesSegmentedControl: UISegmentedControl!
     
@@ -42,20 +42,16 @@ class MyRidesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, F
         
         SVProgressHUD.setDefaultStyle(.dark)
         
-        if #available(iOS 10.0, *) {
-            tableView.refreshControl = refreshControl
-        } else {
-            tableView.addSubview(refreshControl)
-        }
         
-        refreshControl.addTarget(self, action: #selector(refreshOfferedRides(_:)), for: .valueChanged)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateUIOnLanguaheChange), name: NSNotification.Name(LCLLanguageChangeNotification), object: nil)
+        
+        fetchOfferedRides()
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        offeredRides = []
-        SVProgressHUD.show()
-        firebaseManager.fetchOfferedRides()
+        self.tabBarController?.navigationItem.title = "My Rides".localized()
+        tableView.reloadData()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -78,10 +74,11 @@ class MyRidesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, F
         if(selectedMode == 0) {
             let ride = offeredRides[indexPath.row]
             let cell = tableView.dequeueReusableCell(withIdentifier: "RideTableCell") as! RideTableCell
-            cell.rideFromLabel.text = "\(ride.leavingFromNeighborhood!) - \(ride.leavingFromCity!)"
-            cell.rideToLabel.text = "\(ride.goingToNeighborhood!) - \(ride.goingToCity!)"
-            cell.rideDateandTimeLabel.text = "\(ride.outboundRideDateAndTime.getDateTimeString()!)"
-            //cell.ride = offeredRides[indexPath.row]
+            
+            cell.rideFromLabel.text = "\(ride.fromNeigborhood) - \(ride.fromCity)"
+            cell.rideToLabel.text = "\(ride.toNeigborhood) - \(ride.toCity)"
+            cell.rideDateAndTimeLabel.text = "\(ride.dateAndTime!.getLocalizedDateTimeString()!)"
+            
             return cell
         }
         return UITableViewCell()
@@ -91,8 +88,12 @@ class MyRidesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, F
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 120.0
+    }
     
     // MARK: - FirebaseManager delegate methods
     
@@ -102,12 +103,32 @@ class MyRidesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, F
         if(SVProgressHUD.isVisible()) {
             SVProgressHUD.dismiss()
         }
-        if(refreshControl.isRefreshing) {
-            refreshControl.endRefreshing()
-        }
     }
     
     // MARK: - Private Methods
+    
+    private func fetchOfferedRides() {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("Failed at fetching offered rides")
+            return
+        }
+        let offeredRidesRef = dbRef.child("users").child(uid).child("offeredRides")
+        offeredRidesRef.observe(.childAdded) { (snapshot) in
+            if let rideInfo = snapshot.value as? JSONDictionary {
+                let rideId = rideInfo["rideId"] as! String
+                FirebaseManager.fetchRideInformation(forRide: rideId, completion: { (ride) in
+                    if let ride = ride {
+                        self.offeredRides.append(ride)
+                        self.offeredRides.sort(by: { (ride1, ride2) -> Bool in
+                            ride1.dateAndTime!.timeIntervalSince1970 > ride2.dateAndTime!.timeIntervalSince1970
+                        })
+                        self.tableView.insertRows(at: [IndexPath(row: self.offeredRides.count-1, section: 0)], with: UITableView.RowAnimation.automatic)
+                        self.updateView()
+                    }
+                })
+            }
+        }
+    }
     
     private func updateView() {
         let hasRides = offeredRides.count > 0 || requestedRides.count > 0
@@ -119,6 +140,10 @@ class MyRidesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, F
     
     // MARK: - Handlers and Actions
     
+    @objc func updateUIOnLanguaheChange() {
+        tableView.reloadData()
+    }
+    
     @objc func reloadTable(notification: Notification) {
         DispatchQueue.main.async {
             SVProgressHUD.show()
@@ -129,10 +154,6 @@ class MyRidesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, F
     
     @objc func segmentedControlValueChanged() {
         tableView.reloadData()
-    }
-    
-    @objc func refreshOfferedRides(_ sender: Any) {
-        firebaseManager.fetchOfferedRides()
     }
     
 }

@@ -8,13 +8,24 @@
 
 /* Begin PBXBuildFile section */
 		7E7BF3376B161DB2E33E3C6A /* Pods_ZenonCarpooling.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6192089AC6DA2F76E5818D1 /* Pods_ZenonCarpooling.framework */; };
+		E10B6F4A2186582800D644AE /* SplashScreenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10B6F482186582800D644AE /* SplashScreenVC.swift */; };
+		E10B6F4B2186582800D644AE /* SplashScreenVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = E10B6F492186582800D644AE /* SplashScreenVC.xib */; };
 		E138F99220AEADCA00325CB1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E138F99120AEADCA00325CB1 /* AppDelegate.swift */; };
 		E138F99920AEADCB00325CB1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E138F99820AEADCB00325CB1 /* Assets.xcassets */; };
 		E138F99C20AEADCB00325CB1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E138F99A20AEADCB00325CB1 /* LaunchScreen.storyboard */; };
 		E138F9A920AEB05400325CB1 /* LoginScreenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E138F9A720AEB05400325CB1 /* LoginScreenVC.swift */; };
+		E14BE64721765FBD00F27583 /* RideMapMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14BE64621765FBD00F27583 /* RideMapMarkerView.swift */; };
+		E14BE64921765FCD00F27583 /* RideMapMarkerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E14BE64821765FCD00F27583 /* RideMapMarkerView.xib */; };
 		E15306292162166A00F7AA01 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15306282162166A00F7AA01 /* FirebaseManager.swift */; };
 		E1587C8E20BC169500C48DB6 /* CustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1587C8C20BC169500C48DB6 /* CustomAlertView.swift */; };
 		E1587C8F20BC169500C48DB6 /* CustomAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1587C8D20BC169500C48DB6 /* CustomAlertView.xib */; };
+		E15D02202182171700A8FC25 /* Chat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E15D021F2182171700A8FC25 /* Chat.storyboard */; };
+		E15D02222182189A00A8FC25 /* ChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15D02212182189A00A8FC25 /* ChatVC.swift */; };
+		E15D022621821A3900A8FC25 /* ConversationsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15D022521821A3900A8FC25 /* ConversationsVC.swift */; };
+		E15D022821821AAC00A8FC25 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15D022721821AAC00A8FC25 /* Message.swift */; };
+		E15D022A21821AE100A8FC25 /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15D022921821AE100A8FC25 /* Conversation.swift */; };
+		E15D022C21821B4200A8FC25 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15D022B21821B4200A8FC25 /* Helper.swift */; };
+		E15D022E21821BED00A8FC25 /* ChatCustomCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15D022D21821BED00A8FC25 /* ChatCustomCells.swift */; };
 		E15F0E8820BC9C83007C1965 /* SearchRideVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15F0E8620BC9C83007C1965 /* SearchRideVC.swift */; };
 		E15F0E8920BC9C83007C1965 /* SearchRideVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = E15F0E8720BC9C83007C1965 /* SearchRideVC.xib */; };
 		E179111B20BACD47000FB92A /* ShowOrEditProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E179111920BACD47000FB92A /* ShowOrEditProfileVC.swift */; };
@@ -26,11 +37,7 @@
 		E179112620BAEF87000FB92A /* ProfileInfoTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E179112420BAEF87000FB92A /* ProfileInfoTableCell.xib */; };
 		E179112920BAEF9F000FB92A /* ProfileImageTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E179112720BAEF9F000FB92A /* ProfileImageTableCell.swift */; };
 		E179112A20BAEF9F000FB92A /* ProfileImageTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E179112820BAEF9F000FB92A /* ProfileImageTableCell.xib */; };
-		E179112C20BB0B7E000FB92A /* LunchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E179112B20BB0B7E000FB92A /* LunchScreen.swift */; };
 		E1973BD620AECE5F002F8ECB /* TabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1973BD420AECE5F002F8ECB /* TabBarVC.swift */; };
-		E1973BDB20AED581002F8ECB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E1973BDA20AED581002F8ECB /* GoogleService-Info.plist */; };
-		E1973BE120AEDCB2002F8ECB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1973BDF20AEDCB2002F8ECB /* ViewController.swift */; };
-		E1973BE220AEDCB2002F8ECB /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1973BE020AEDCB2002F8ECB /* ViewController.xib */; };
 		E1973BE720AEE083002F8ECB /* SignUpScreenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1973BE520AEE083002F8ECB /* SignUpScreenVC.swift */; };
 		E1973BEC20AEF1ED002F8ECB /* Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1973BEB20AEF1ED002F8ECB /* Extenstions.swift */; };
 		E1973BEF20AF02B8002F8ECB /* ZenonUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1973BEE20AF02B8002F8ECB /* ZenonUser.swift */; };
@@ -42,10 +49,16 @@
 		E1A116B120B981F100757070 /* AppSettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A116AF20B981F100757070 /* AppSettingsVC.swift */; };
 		E1A116B220B981F100757070 /* AppSettingsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1A116B020B981F100757070 /* AppSettingsVC.xib */; };
 		E1A116B520B9964A00757070 /* ProfileSettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A116B420B9964A00757070 /* ProfileSettingsCell.swift */; };
+		E1A29B082187872800E3C47E /* PickLocationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A29B062187872800E3C47E /* PickLocationVC.swift */; };
+		E1A29B092187872800E3C47E /* PickLocationVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1A29B072187872800E3C47E /* PickLocationVC.xib */; };
+		E1A29B0B2187876600E3C47E /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A29B0A2187876600E3C47E /* City.swift */; };
+		E1A29B0D2187879A00E3C47E /* Neighborhood.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A29B0C2187879A00E3C47E /* Neighborhood.swift */; };
+		E1BB405A2189ADC700E57813 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E1BB40592189ADC700E57813 /* GoogleService-Info.plist */; };
 		E1E7BBF220CFF36F00FC3C4B /* MyRidesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E7BBF020CFF36F00FC3C4B /* MyRidesVC.swift */; };
 		E1E7BBF320CFF36F00FC3C4B /* MyRidesVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1E7BBF120CFF36F00FC3C4B /* MyRidesVC.xib */; };
 		E1ED6AD320D01BFA00727E75 /* RideTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1ED6AD120D01BFA00727E75 /* RideTableCell.swift */; };
 		E1ED6AD420D01BFA00727E75 /* RideTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1ED6AD220D01BFA00727E75 /* RideTableCell.xib */; };
+		E1F05E4A2188E51700E2697C /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F05E492188E51700E2697C /* Location.swift */; };
 		E1F662F420C6F367003F7FA8 /* OfferRideVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F662F220C6F367003F7FA8 /* OfferRideVC.swift */; };
 		E1F662F520C6F367003F7FA8 /* OfferRideVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1F662F320C6F367003F7FA8 /* OfferRideVC.xib */; };
 		E1F662F720C72037003F7FA8 /* Ride.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F662F620C72037003F7FA8 /* Ride.swift */; };
@@ -55,15 +68,26 @@
 		1834A5D4E7E22F1AB2784B22 /* Pods-ZenonCarpooling.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZenonCarpooling.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ZenonCarpooling/Pods-ZenonCarpooling.debug.xcconfig"; sourceTree = "<group>"; };
 		A6192089AC6DA2F76E5818D1 /* Pods_ZenonCarpooling.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ZenonCarpooling.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B48ED108251DE122104BA87B /* Pods-ZenonCarpooling.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZenonCarpooling.release.xcconfig"; path = "Pods/Target Support Files/Pods-ZenonCarpooling/Pods-ZenonCarpooling.release.xcconfig"; sourceTree = "<group>"; };
+		E10B6F482186582800D644AE /* SplashScreenVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenVC.swift; sourceTree = "<group>"; };
+		E10B6F492186582800D644AE /* SplashScreenVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SplashScreenVC.xib; sourceTree = "<group>"; };
 		E138F98E20AEADCA00325CB1 /* ZenonCarpooling.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZenonCarpooling.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E138F99120AEADCA00325CB1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E138F99820AEADCB00325CB1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E138F99B20AEADCB00325CB1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E138F99D20AEADCB00325CB1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E138F9A720AEB05400325CB1 /* LoginScreenVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginScreenVC.swift; sourceTree = "<group>"; };
+		E14BE64621765FBD00F27583 /* RideMapMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideMapMarkerView.swift; sourceTree = "<group>"; };
+		E14BE64821765FCD00F27583 /* RideMapMarkerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RideMapMarkerView.xib; sourceTree = "<group>"; };
 		E15306282162166A00F7AA01 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		E1587C8C20BC169500C48DB6 /* CustomAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertView.swift; sourceTree = "<group>"; };
 		E1587C8D20BC169500C48DB6 /* CustomAlertView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomAlertView.xib; sourceTree = "<group>"; };
+		E15D021F2182171700A8FC25 /* Chat.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Chat.storyboard; sourceTree = "<group>"; };
+		E15D02212182189A00A8FC25 /* ChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatVC.swift; sourceTree = "<group>"; };
+		E15D022521821A3900A8FC25 /* ConversationsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsVC.swift; sourceTree = "<group>"; };
+		E15D022721821AAC00A8FC25 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		E15D022921821AE100A8FC25 /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
+		E15D022B21821B4200A8FC25 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
+		E15D022D21821BED00A8FC25 /* ChatCustomCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCustomCells.swift; sourceTree = "<group>"; };
 		E15F0E8620BC9C83007C1965 /* SearchRideVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRideVC.swift; sourceTree = "<group>"; };
 		E15F0E8720BC9C83007C1965 /* SearchRideVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchRideVC.xib; sourceTree = "<group>"; };
 		E179111920BACD47000FB92A /* ShowOrEditProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowOrEditProfileVC.swift; sourceTree = "<group>"; };
@@ -75,11 +99,7 @@
 		E179112420BAEF87000FB92A /* ProfileInfoTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileInfoTableCell.xib; sourceTree = "<group>"; };
 		E179112720BAEF9F000FB92A /* ProfileImageTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageTableCell.swift; sourceTree = "<group>"; };
 		E179112820BAEF9F000FB92A /* ProfileImageTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileImageTableCell.xib; sourceTree = "<group>"; };
-		E179112B20BB0B7E000FB92A /* LunchScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LunchScreen.swift; sourceTree = "<group>"; };
 		E1973BD420AECE5F002F8ECB /* TabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVC.swift; sourceTree = "<group>"; };
-		E1973BDA20AED581002F8ECB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		E1973BDF20AEDCB2002F8ECB /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = ../ViewController.swift; sourceTree = "<group>"; };
-		E1973BE020AEDCB2002F8ECB /* ViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ViewController.xib; path = ../ViewController.xib; sourceTree = "<group>"; };
 		E1973BE520AEE083002F8ECB /* SignUpScreenVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SignUpScreenVC.swift; path = Model/SignUpScreenVC.swift; sourceTree = "<group>"; };
 		E1973BEB20AEF1ED002F8ECB /* Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extenstions.swift; sourceTree = "<group>"; };
 		E1973BEE20AF02B8002F8ECB /* ZenonUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZenonUser.swift; sourceTree = "<group>"; };
@@ -99,10 +119,17 @@
 		E1A116AF20B981F100757070 /* AppSettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsVC.swift; sourceTree = "<group>"; };
 		E1A116B020B981F100757070 /* AppSettingsVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AppSettingsVC.xib; sourceTree = "<group>"; };
 		E1A116B420B9964A00757070 /* ProfileSettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsCell.swift; sourceTree = "<group>"; };
+		E1A29B062187872800E3C47E /* PickLocationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickLocationVC.swift; sourceTree = "<group>"; };
+		E1A29B072187872800E3C47E /* PickLocationVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PickLocationVC.xib; sourceTree = "<group>"; };
+		E1A29B0A2187876600E3C47E /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
+		E1A29B0C2187879A00E3C47E /* Neighborhood.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Neighborhood.swift; sourceTree = "<group>"; };
+		E1BB40592189ADC700E57813 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E1E7BBF020CFF36F00FC3C4B /* MyRidesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyRidesVC.swift; sourceTree = "<group>"; };
 		E1E7BBF120CFF36F00FC3C4B /* MyRidesVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyRidesVC.xib; sourceTree = "<group>"; };
 		E1ED6AD120D01BFA00727E75 /* RideTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideTableCell.swift; sourceTree = "<group>"; };
 		E1ED6AD220D01BFA00727E75 /* RideTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RideTableCell.xib; sourceTree = "<group>"; };
+		E1F05E482188DE0D00E2697C /* ZenonCarpooling.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ZenonCarpooling.entitlements; sourceTree = "<group>"; };
+		E1F05E492188E51700E2697C /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		E1F662F220C6F367003F7FA8 /* OfferRideVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferRideVC.swift; sourceTree = "<group>"; };
 		E1F662F320C6F367003F7FA8 /* OfferRideVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OfferRideVC.xib; sourceTree = "<group>"; };
 		E1F662F620C72037003F7FA8 /* Ride.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ride.swift; sourceTree = "<group>"; };
@@ -158,9 +185,10 @@
 		E138F99020AEADCA00325CB1 /* ZenonCarpooling */ = {
 			isa = PBXGroup;
 			children = (
+				E1F05E482188DE0D00E2697C /* ZenonCarpooling.entitlements */,
 				E1A116B320B9961500757070 /* Views */,
 				E1973BED20AEF7A0002F8ECB /* Model */,
-				E1973BEA20AEF1BF002F8ECB /* Extensions */,
+				E1973BEA20AEF1BF002F8ECB /* Extensions & Helpers */,
 				E138F9A420AEAE6E00325CB1 /* Controllers  */,
 				E138F9A320AEADF200325CB1 /* SupportingFiles */,
 				E1973BF920B4170A002F8ECB /* Localizable.strings */,
@@ -172,11 +200,10 @@
 		E138F9A320AEADF200325CB1 /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
-				E1973BDA20AED581002F8ECB /* GoogleService-Info.plist */,
 				E138F99120AEADCA00325CB1 /* AppDelegate.swift */,
 				E138F99D20AEADCB00325CB1 /* Info.plist */,
+				E1BB40592189ADC700E57813 /* GoogleService-Info.plist */,
 				E138F99A20AEADCB00325CB1 /* LaunchScreen.storyboard */,
-				E179112B20BB0B7E000FB92A /* LunchScreen.swift */,
 				E138F99820AEADCB00325CB1 /* Assets.xcassets */,
 			);
 			name = SupportingFiles;
@@ -185,11 +212,10 @@
 		E138F9A420AEAE6E00325CB1 /* Controllers  */ = {
 			isa = PBXGroup;
 			children = (
+				E15D021E218214C800A8FC25 /* ChatViewControllers */,
 				E138F9A720AEB05400325CB1 /* LoginScreenVC.swift */,
 				E1973BF620B41613002F8ECB /* LoginScreenVC.xib */,
 				E1973BD420AECE5F002F8ECB /* TabBarVC.swift */,
-				E1973BDF20AEDCB2002F8ECB /* ViewController.swift */,
-				E1973BE020AEDCB2002F8ECB /* ViewController.xib */,
 				E1973BE520AEE083002F8ECB /* SignUpScreenVC.swift */,
 				E1973C0C20B570A5002F8ECB /* SignUpScreenVC.xib */,
 				E1973BF020AF051D002F8ECB /* RecoverPasswordScreenVC.swift */,
@@ -206,16 +232,31 @@
 				E1F662F320C6F367003F7FA8 /* OfferRideVC.xib */,
 				E1E7BBF020CFF36F00FC3C4B /* MyRidesVC.swift */,
 				E1E7BBF120CFF36F00FC3C4B /* MyRidesVC.xib */,
+				E10B6F482186582800D644AE /* SplashScreenVC.swift */,
+				E10B6F492186582800D644AE /* SplashScreenVC.xib */,
+				E1A29B062187872800E3C47E /* PickLocationVC.swift */,
+				E1A29B072187872800E3C47E /* PickLocationVC.xib */,
 			);
 			name = "Controllers ";
 			sourceTree = "<group>";
 		};
-		E1973BEA20AEF1BF002F8ECB /* Extensions */ = {
+		E15D021E218214C800A8FC25 /* ChatViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				E15D02212182189A00A8FC25 /* ChatVC.swift */,
+				E15D022521821A3900A8FC25 /* ConversationsVC.swift */,
+				E15D022D21821BED00A8FC25 /* ChatCustomCells.swift */,
+			);
+			name = ChatViewControllers;
+			sourceTree = "<group>";
+		};
+		E1973BEA20AEF1BF002F8ECB /* Extensions & Helpers */ = {
 			isa = PBXGroup;
 			children = (
 				E1973BEB20AEF1ED002F8ECB /* Extenstions.swift */,
+				E15D022B21821B4200A8FC25 /* Helper.swift */,
 			);
-			name = Extensions;
+			name = "Extensions & Helpers";
 			sourceTree = "<group>";
 		};
 		E1973BED20AEF7A0002F8ECB /* Model */ = {
@@ -223,6 +264,11 @@
 			children = (
 				E1973BEE20AF02B8002F8ECB /* ZenonUser.swift */,
 				E1F662F620C72037003F7FA8 /* Ride.swift */,
+				E15D022721821AAC00A8FC25 /* Message.swift */,
+				E15D022921821AE100A8FC25 /* Conversation.swift */,
+				E1A29B0A2187876600E3C47E /* City.swift */,
+				E1A29B0C2187879A00E3C47E /* Neighborhood.swift */,
+				E1F05E492188E51700E2697C /* Location.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -240,6 +286,9 @@
 				E179112820BAEF9F000FB92A /* ProfileImageTableCell.xib */,
 				E1ED6AD120D01BFA00727E75 /* RideTableCell.swift */,
 				E1ED6AD220D01BFA00727E75 /* RideTableCell.xib */,
+				E14BE64621765FBD00F27583 /* RideMapMarkerView.swift */,
+				E14BE64821765FCD00F27583 /* RideMapMarkerView.xib */,
+				E15D021F2182171700A8FC25 /* Chat.storyboard */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -280,6 +329,11 @@
 					E138F98D20AEADCA00325CB1 = {
 						CreatedOnToolsVersion = 9.3.1;
 						LastSwiftMigration = 1000;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -307,23 +361,26 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E15D02202182171700A8FC25 /* Chat.storyboard in Resources */,
 				E179112A20BAEF9F000FB92A /* ProfileImageTableCell.xib in Resources */,
 				E1973C0A20B570A5002F8ECB /* SignUpScreenVC.xib in Resources */,
 				E1ED6AD420D01BFA00727E75 /* RideTableCell.xib in Resources */,
 				E1E7BBF320CFF36F00FC3C4B /* MyRidesVC.xib in Resources */,
 				E138F99C20AEADCB00325CB1 /* LaunchScreen.storyboard in Resources */,
+				E14BE64921765FCD00F27583 /* RideMapMarkerView.xib in Resources */,
 				E179111E20BAD501000FB92A /* ProfileSettingsCell.xib in Resources */,
 				E15F0E8920BC9C83007C1965 /* SearchRideVC.xib in Resources */,
 				E179111C20BACD47000FB92A /* ShowOrEditProfileVC.xib in Resources */,
 				E1587C8F20BC169500C48DB6 /* CustomAlertView.xib in Resources */,
 				E1A116B220B981F100757070 /* AppSettingsVC.xib in Resources */,
-				E1973BDB20AED581002F8ECB /* GoogleService-Info.plist in Resources */,
 				E179112620BAEF87000FB92A /* ProfileInfoTableCell.xib in Resources */,
+				E10B6F4B2186582800D644AE /* SplashScreenVC.xib in Resources */,
 				E1973BFB20B4170A002F8ECB /* Localizable.strings in Resources */,
 				E1F662F520C6F367003F7FA8 /* OfferRideVC.xib in Resources */,
+				E1BB405A2189ADC700E57813 /* GoogleService-Info.plist in Resources */,
 				E179112220BAE774000FB92A /* SettingsTableCell.xib in Resources */,
+				E1A29B092187872800E3C47E /* PickLocationVC.xib in Resources */,
 				E138F99920AEADCB00325CB1 /* Assets.xcassets in Resources */,
-				E1973BE220AEDCB2002F8ECB /* ViewController.xib in Resources */,
 				E1973C1520B583A5002F8ECB /* RecoverPasswordScreenVC.xib in Resources */,
 				E1973BF420B41613002F8ECB /* LoginScreenVC.xib in Resources */,
 			);
@@ -385,6 +442,7 @@
 				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/Localize-Swift/Localize_Swift.framework",
 				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/libPhoneNumber-iOS/libPhoneNumber_iOS.framework",
@@ -398,6 +456,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Localize_Swift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/libPhoneNumber_iOS.framework",
@@ -415,9 +474,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E15D02222182189A00A8FC25 /* ChatVC.swift in Sources */,
 				E1A116B520B9964A00757070 /* ProfileSettingsCell.swift in Sources */,
+				E1F05E4A2188E51700E2697C /* Location.swift in Sources */,
+				E15D022E21821BED00A8FC25 /* ChatCustomCells.swift in Sources */,
 				E1F662F420C6F367003F7FA8 /* OfferRideVC.swift in Sources */,
-				E1973BE120AEDCB2002F8ECB /* ViewController.swift in Sources */,
+				E15D022621821A3900A8FC25 /* ConversationsVC.swift in Sources */,
+				E15D022A21821AE100A8FC25 /* Conversation.swift in Sources */,
+				E14BE64721765FBD00F27583 /* RideMapMarkerView.swift in Sources */,
 				E1973BD620AECE5F002F8ECB /* TabBarVC.swift in Sources */,
 				E15306292162166A00F7AA01 /* FirebaseManager.swift in Sources */,
 				E179112120BAE774000FB92A /* SettingsTableCell.swift in Sources */,
@@ -427,15 +491,20 @@
 				E1E7BBF220CFF36F00FC3C4B /* MyRidesVC.swift in Sources */,
 				E1973BE720AEE083002F8ECB /* SignUpScreenVC.swift in Sources */,
 				E1ED6AD320D01BFA00727E75 /* RideTableCell.swift in Sources */,
+				E1A29B082187872800E3C47E /* PickLocationVC.swift in Sources */,
 				E179111B20BACD47000FB92A /* ShowOrEditProfileVC.swift in Sources */,
 				E138F9A920AEB05400325CB1 /* LoginScreenVC.swift in Sources */,
-				E179112C20BB0B7E000FB92A /* LunchScreen.swift in Sources */,
+				E1A29B0D2187879A00E3C47E /* Neighborhood.swift in Sources */,
 				E1973BEC20AEF1ED002F8ECB /* Extenstions.swift in Sources */,
 				E1F662F720C72037003F7FA8 /* Ride.swift in Sources */,
+				E15D022821821AAC00A8FC25 /* Message.swift in Sources */,
 				E1A116B120B981F100757070 /* AppSettingsVC.swift in Sources */,
 				E179112520BAEF87000FB92A /* ProfileInfoTableCell.swift in Sources */,
+				E10B6F4A2186582800D644AE /* SplashScreenVC.swift in Sources */,
 				E138F99220AEADCA00325CB1 /* AppDelegate.swift in Sources */,
+				E1A29B0B2187876600E3C47E /* City.swift in Sources */,
 				E1587C8E20BC169500C48DB6 /* CustomAlertView.swift in Sources */,
+				E15D022C21821B4200A8FC25 /* Helper.swift in Sources */,
 				E1973BEF20AF02B8002F8ECB /* ZenonUser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -547,7 +616,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -602,7 +671,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -616,6 +685,7 @@
 			baseConfigurationReference = 1834A5D4E7E22F1AB2784B22 /* Pods-ZenonCarpooling.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ZenonCarpooling/ZenonCarpooling.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S86GR4539G;
 				INFOPLIST_FILE = ZenonCarpooling/Info.plist;
@@ -636,6 +706,7 @@
 			baseConfigurationReference = B48ED108251DE122104BA87B /* Pods-ZenonCarpooling.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ZenonCarpooling/ZenonCarpooling.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S86GR4539G;
 				INFOPLIST_FILE = ZenonCarpooling/Info.plist;

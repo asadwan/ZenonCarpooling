@@ -7,3 +7,23 @@
 */
 
 
+"Settings" = "الاعدادات";
+"Sign Out" = "تسجيل الخروج";
+"Are you sure?" = "هل انت متأكد؟";
+"Yes" = "نعم";
+"No" = "لا";
+"Cancel" = "إلغاء";
+"Language" = "اللغة";
+
+"Profile" = "تعديل الحساب";
+"First Name" = "الاسم الاول";
+"Last Name" = "اسم العائلة";
+"Email" = "البريد الالكتروني";
+"Mobile Number" = "رقم الموبايل";
+
+"My Rides" = "مشاويري";
+"Find a Ride" = "ابحث عن توصيلة";
+"Offer a Ride" = "اعرض توصيلة";
+"Chat" = "المحادثة";
+
+"Leaving From" = "المغادرة من";
