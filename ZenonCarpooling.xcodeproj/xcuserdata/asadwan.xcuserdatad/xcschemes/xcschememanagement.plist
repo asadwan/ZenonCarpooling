@@ -7,7 +7,7 @@
 		<key>ZenonCarpooling.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>0</integer>
+			<integer>4</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
@@ -15,7 +15,7 @@
 		<key>E138F98D20AEADCA00325CB1</key>
 		<dict>
 			<key>primary</key>
-			<true />
+			<true/>
 		</dict>
 	</dict>
 </dict>

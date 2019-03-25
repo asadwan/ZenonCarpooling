@@ -19,11 +19,7 @@ class ConversationsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var alertBottomConstraint: NSLayoutConstraint!
-    lazy var leftButton: UIBarButtonItem = {
-        let image = UIImage.init(named: "default profile")?.withRenderingMode(.alwaysOriginal)
-        let button  = UIBarButtonItem.init(image: image, style: .plain, target: self, action: #selector(ConversationsVC.showProfile))
-        return button
-    }()
+    
     var items = [Conversation]()
     var selectedUser: ZenonUser?
     
@@ -41,34 +37,6 @@ class ConversationsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         // notification setup
         NotificationCenter.default.addObserver(self, selector: #selector(self.pushToUserMesssages(notification:)), name: NSNotification.Name(rawValue: "showUserMessages"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.showEmailAlert), name: UIApplication.didBecomeActiveNotification, object: nil)
-        
-        //right bar button
-        let icon = UIImage.init(named: "compose")?.withRenderingMode(.alwaysOriginal)
-        let rightButton = UIBarButtonItem.init(image: icon!, style: .plain, target: self, action: #selector(ConversationsVC.showContacts))
-        self.navigationItem.rightBarButtonItem = rightButton
-        
-        //left bar button image fetching
-        self.navigationItem.leftBarButtonItem = self.leftButton
-        self.tableView.tableFooterView = UIView.init(frame: CGRect.zero)
-        if let id = Auth.auth().currentUser?.uid {
-            ZenonUser.info(forUserID: id, completion: { [weak weakSelf = self] (user) in
-                let image = user.profileImage! // fix
-                let contentSize = CGSize.init(width: 30, height: 30)
-                UIGraphicsBeginImageContextWithOptions(contentSize, false, 0.0)
-                let _  = UIBezierPath.init(roundedRect: CGRect.init(origin: CGPoint.zero, size: contentSize), cornerRadius: 14).addClip()
-                image.draw(in: CGRect(origin: CGPoint.zero, size: contentSize))
-                let path = UIBezierPath.init(roundedRect: CGRect.init(origin: CGPoint.zero, size: contentSize), cornerRadius: 14)
-                path.lineWidth = 2
-                UIColor.white.setStroke()
-                path.stroke()
-                let finalImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!.withRenderingMode(.alwaysOriginal)
-                UIGraphicsEndImageContext()
-                DispatchQueue.main.async {
-                    weakSelf?.leftButton.image = finalImage
-                    weakSelf = nil
-                }
-            })
-        }
     }
     
     //Downloads conversations
@@ -91,19 +59,6 @@ class ConversationsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         }
     }
     
-    //Shows profile extra view
-    
-    @objc func showProfile() {
-        let info = ["viewType" : ShowExtraView.profile]
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showExtraView"), object: nil, userInfo: info)
-        self.inputView?.isHidden = true
-    }
-    
-    //Shows contacts extra view
-    @objc func showContacts() {
-        let info = ["viewType" : ShowExtraView.contacts]
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showExtraView"), object: nil, userInfo: info)
-    }
     
     //Show EmailVerification on the bottom
     @objc func showEmailAlert() {

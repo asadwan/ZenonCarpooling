@@ -94,6 +94,7 @@ class FirebaseManager {
         guard let uid = Auth.auth().currentUser?.uid else {
             return
         }
+        ride.availableSeats = ride.offeredSeats
         ride.posterId = uid
         let posterId = uid
         let rideId = NSUUID().uuidString

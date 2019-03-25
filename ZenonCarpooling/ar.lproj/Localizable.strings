@@ -26,4 +26,24 @@
 "Offer a Ride" = "اعرض توصيلة";
 "Chat" = "المحادثة";
 
-"Leaving From" = "المغادرة من";
+"Origin Location" = "موقع المغادرة";
+"Destination Location" = "موقع الوجهة";
+"Round Trip" = "ذهاب و عودة";
+"Trip Date and Time" = "وقت و تاريخ الرحلة";
+"Outbound Trip Date and Time" = "وقت وتاريخ رحلة الذهاب";
+"Inbound Trip Date and Time" = "وقت و تاريخ رحلة العودة";
+"Trip Offered Seats" = "المقاعد المتوفرة للرحلة";
+"Outbound Trip Offered Seats" = "المقاعد المتوفرة لرحلة الذهاب";
+"Inbound Trip Offered Seats" = "المقاعد المتوفرة لرحلة العودة";
+"Seats" = "مقاعد";
+"JOD" = "د.إ.";
+"Price per Seat" = "السعر للمقعد";
+"Ride Details" = "تفاصيل الرحلة";
+
+"Pick" = "إختر";
+"SUBMIT" = "إعرض";
+"Select date and time" = "إختر موعد الرحلة";
+
+
+
+

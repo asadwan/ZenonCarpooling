@@ -6,9 +6,9 @@ PODS:
     - Bolts/Tasks
   - Bolts/Tasks (1.9.0)
   - DateTimePicker (2.1.2)
-  - FBSDKCoreKit (4.38.0):
+  - FBSDKCoreKit (4.38.1):
     - Bolts (~> 1.9)
-  - FBSDKLoginKit (4.38.0):
+  - FBSDKLoginKit (4.38.1):
     - FBSDKCoreKit
   - Firebase/Auth (5.11.0):
     - Firebase/CoreOnly
@@ -87,14 +87,23 @@ PODS:
   - GoogleUtilities/UserDefaults (5.3.4):
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (1.2.0)
+  - Kingfisher (4.10.0)
   - leveldb-library (1.20)
   - libPhoneNumber-iOS (0.9.13)
   - Localize-Swift (2.0.0)
+  - Material (2.16.4):
+    - Material/Core (= 2.16.4)
+  - Material/Core (2.16.4):
+    - Motion (~> 1.4.3)
+  - Motion (1.4.3):
+    - Motion/Core (= 1.4.3)
+  - Motion/Core (1.4.3)
   - nanopb (0.3.901):
     - nanopb/decode (= 0.3.901)
     - nanopb/encode (= 0.3.901)
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
+  - RLBAlertsPickers (1.0)
   - SVProgressHUD (2.2.5)
 
 DEPENDENCIES:
@@ -107,8 +116,11 @@ DEPENDENCIES:
   - GoogleMaps
   - GooglePlacePicker
   - GooglePlaces
+  - Kingfisher
   - libPhoneNumber-iOS
   - Localize-Swift
+  - Material
+  - RLBAlertsPickers (from `https://github.com/loicgriffie/Alerts-Pickers.git`, branch `master`)
   - SVProgressHUD
 
 SPEC REPOS:
@@ -131,17 +143,30 @@ SPEC REPOS:
     - GooglePlaces
     - GoogleUtilities
     - GTMSessionFetcher
+    - Kingfisher
     - leveldb-library
     - libPhoneNumber-iOS
     - Localize-Swift
+    - Material
+    - Motion
     - nanopb
     - SVProgressHUD
+
+EXTERNAL SOURCES:
+  RLBAlertsPickers:
+    :branch: master
+    :git: https://github.com/loicgriffie/Alerts-Pickers.git
+
+CHECKOUT OPTIONS:
+  RLBAlertsPickers:
+    :commit: 9f660cc3ed563caa60560a9e01341215d229ca04
+    :git: https://github.com/loicgriffie/Alerts-Pickers.git
 
 SPEC CHECKSUMS:
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   DateTimePicker: 111a1ca10b390ac315fdf3e85a5941fd4f72dfb7
-  FBSDKCoreKit: 2ab7fdbf600dc6b628ba7a49aa29d357a7b4c74e
-  FBSDKLoginKit: 634fa27e72e33620eb6389253337342c03d4a407
+  FBSDKCoreKit: 8d47857400e2f5bdea697a80daff882e91c84ef6
+  FBSDKLoginKit: 4621c690d9dd8628031a4791497062183ea34b0d
   Firebase: b48f9e653da971ecce5b8c749684bc8bb2d26bd3
   FirebaseAnalytics: 63202d2665de4e6adcbdce189135255d8b5962ba
   FirebaseAuth: 504b198ceb3472dca5c65bb95544ea44cfc9439e
@@ -156,12 +181,16 @@ SPEC CHECKSUMS:
   GooglePlaces: 3d06e6c99654545b4738ce49648745779c25f2ef
   GoogleUtilities: abb092d2c12e817fa3e0e7b274987dd72fb86ec3
   GTMSessionFetcher: 0c4baf0a73acd0041bf9f71ea018deedab5ea84e
+  Kingfisher: 43c4b802d8b5256cf1f4379e9cd10b329be6d3e2
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   libPhoneNumber-iOS: e444379ac18bbfbdefad571da735b2cd7e096caa
   Localize-Swift: c798ec9286494866f7068f85f7c71283ac5bdab4
+  Material: 4ed78690b09ffd148b5ffab6b4367fb1d8da1cd3
+  Motion: 153ba49692997888556c7a95207278a8b1f8be95
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
+  RLBAlertsPickers: 3489f6d8b7ba4e04aa1f53b3a7d47edda040840f
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
 
-PODFILE CHECKSUM: c9f1e532fb6446a2aa5d2420fc5245ebe530a695
+PODFILE CHECKSUM: b947d7276675c26370a0bb171d1b464ad56e4ffb
 
 COCOAPODS: 1.5.3

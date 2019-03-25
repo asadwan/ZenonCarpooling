@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0930"
+   LastUpgradeVersion = "1010"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0BE77E4A5521CFE99571B87DE4B0570D"
+               BlueprintIdentifier = "A127256041BB82EDBE9D615B1F9E7F0C"
                BuildableName = "Pods_ZenonCarpooling.framework"
                BlueprintName = "Pods-ZenonCarpooling"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0BE77E4A5521CFE99571B87DE4B0570D"
+            BlueprintIdentifier = "A127256041BB82EDBE9D615B1F9E7F0C"
             BuildableName = "Pods_ZenonCarpooling.framework"
             BlueprintName = "Pods-ZenonCarpooling"
             ReferencedContainer = "container:Pods.xcodeproj">

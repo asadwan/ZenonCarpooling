@@ -19,9 +19,10 @@ class SplashScreenVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-            let tabVarVC = TabBarVC()
+            let tabBarStoryboard = UIStoryboard(name: "TabBar", bundle: nil)
+            let tabBarVC = tabBarStoryboard.instantiateInitialViewController() as! UITabBarController
             let navigationController = UINavigationController()
-            navigationController.viewControllers = [tabVarVC]
+            navigationController.viewControllers = [tabBarVC]
             self.view.window?.rootViewController = navigationController
             self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
         }

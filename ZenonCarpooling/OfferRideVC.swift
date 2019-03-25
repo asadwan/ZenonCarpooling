@@ -2,291 +2,322 @@
 //  OfferRideVC.swift
 //  ZenonCarpooling
 //
-//  Created by Abdullah Adwan on 6/5/18.
+//  Created by Abdullah Adwan on 11/2/18.
 //  Copyright © 2018 Abdullah Adwan. All rights reserved.
 //
 
 import UIKit
-import DateTimePicker
-import Firebase
-import GoogleMaps
+import Material
+import Localize_Swift
+import RLBAlertsPickers
 import SVProgressHUD
 
-class OfferRideVC: UIViewController, DateTimePickerDelegate, PickLocationVCDelegate {
+class OfferRideVC: UITableViewController {
     
-    // MARK: - Properties
     
+    @IBOutlet weak var originLocationLabel: UILabel!
+    @IBOutlet weak var originLocationLabelHeaderLabel: UILabel!
+    @IBOutlet weak var destinationLocationLabel: UILabel!
+    @IBOutlet weak var destinationLocationHeaderLabel: UILabel!
+    @IBOutlet weak var roundTripSwitch: Switch!
+    @IBOutlet weak var roundTripLabel: UILabel!
+    @IBOutlet weak var outboundTripDateAndTime: UILabel!
+    @IBOutlet weak var outboundTripDateAndTimeHeaderLabel: UILabel!
+    @IBOutlet weak var inboundTripDateAndTime: UILabel!
+    @IBOutlet weak var inboundTripDateAndTimeHeaderLabel: UILabel!
+    @IBOutlet weak var outboundOfferedSeatsTextField: UITextField!
+    @IBOutlet weak var outboundOfferedSeatsLabel: UILabel!
+    @IBOutlet weak var outboudSeatsLabel: UILabel!
+    @IBOutlet weak var inboundOfferedSeatsTextField: UITextField!
+    @IBOutlet weak var inboundOfferedSeatsLabel: UILabel!
+    @IBOutlet weak var inboundSeatsLabel: UILabel!
+    @IBOutlet weak var pricePerSeatTextField: UITextField!
+    @IBOutlet weak var pricePerSeatLabel: UILabel!
+    @IBOutlet weak var currencyLabel: UILabel!
+    
+    @IBOutlet weak var pricePerSeatStackView: UIStackView!
+    @IBOutlet weak var outboundOfferedSeatsStackView: UIStackView!
+    @IBOutlet weak var inboundOfferdSeatsStackView: UIStackView!
+    @IBOutlet weak var warningLabel: UILabel!
+    @IBOutlet weak var submitRideButton: RaisedButton!
+    
+    
+    var hapticNotification = UINotificationFeedbackGenerator()
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
     
-    var hapticNotification = UINotificationFeedbackGenerator()
-    
-    @IBOutlet weak var inboundTripDateAndTimeStackView: UIStackView!
-    @IBOutlet weak var inboundTripAvailableSeatsStackView: UIStackView!
-    @IBOutlet weak var inboundTripDateTimeLabel: UILabel!
-    @IBOutlet weak var outboundTripDateTimeLabel: UILabel!
-    @IBOutlet weak var leavingFromLabel: UILabel!
-    @IBOutlet weak var goingToLabel: UILabel!
-    @IBOutlet weak var warningLabel: UILabel!
-    @IBOutlet weak var maxWaitingTimeLabel: UITextField!
-    @IBOutlet weak var pricePerSeatLabel: UITextField!
-    @IBOutlet weak var inboundRideNumOfOfferdSeats: UITextField!
-    @IBOutlet weak var outboundRideNumOfOfferdSeats: UITextField!
-    
-    
-    var goingToLabelSelected = false
-    var leavingFromLabelSelected = false
-    var inboundTripDateTimeLabelSelected = false
-    var outboundTripDateTimeLabelSelected = false
+    var isRoundTrip = false
+    var originLocationSelected = false
+    var destinationLocationSelected = false
+    var outboundTripDateAndTimeSelected = false
+    var inboundTripDateAndTimeSelected = false;
+    var warningIsOn = false;
     
     var outboundRide: Ride = Ride()
     var inboundRide: Ride = Ride()
-    var isRoundTrip: Bool = false
-    
-    var dateTimePicker: DateTimePicker?
-    
-    // MARK: - view life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpSwitch()
+        setLoclizedTextForLabels()
+        destinationLocationLabel.isHidden = true
+        originLocationLabel.isHidden = true
+        outboundOfferedSeatsStackView.isHidden = true
         
-        // warning label is initially hidden
-        warningLabel.isHidden = true
-        
-        //Keyboard show/hide events obervers
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
-        inboundTripAvailableSeatsStackView.isHidden = true
-        inboundTripDateAndTimeStackView.isHidden = true
-        
-        leavingFromLabel.isUserInteractionEnabled = true
-        goingToLabel.isUserInteractionEnabled = true
-        inboundTripDateTimeLabel.isUserInteractionEnabled = true
-        outboundTripDateTimeLabel.isUserInteractionEnabled = true
-        leavingFromLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(presentLocationPickerForLeavingFromLocation)))
-        goingToLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(presentLocationPickerForGoingToLocation)))
-        inboundTripDateTimeLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(presentDateTimePickerForInboundTripDateTime)))
-        outboundTripDateTimeLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(presentDateTimePickerForOutboundTripDateTime)))
-        
-        
-        leavingFromLabel.text = "Leaving From".localized()
+        if(Localize.currentLanguage() == "ar") {
+            view.semanticContentAttribute = .forceRightToLeft
+            tableView.semanticContentAttribute = .forceRightToLeft
+        }
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tabBarController?.navigationItem.title = "Offer a Ride".localized()
+        snackbarController?.tabBarController?.navigationItem.title = "Offer a Ride".localized()
+    }
+
+    // MARK: - Table view data source
+
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 3
+    }
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch section {
+        case 1:
+            return 8
+        default:
+            return 1;
+        }
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        tabBarController?.selectedViewController = self
-    }
-    
-    // MARK: - Private Methods
-    
-    // MARK: - Actions and Handlers
-    
-    @objc func keyboardWillShow(notification: Notification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y == 0 {
-                self.view.frame.origin.y -= keyboardSize.height/2
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if(indexPath.row == 4 || indexPath.row == 6) {
+            if !isRoundTrip {
+                return 0.0
             }
+        } else if ((indexPath.section == 0) && !warningIsOn) {
+            return 0
         }
+        return 66.0
     }
     
-    @objc func keyboardWillHide(notification: Notification) {
-        if self.view.frame.origin.y != 0 {
-            self.view.frame.origin.y = 0
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if (section == 1) {
+            return "Ride Details".localized()
         }
+        return ""
     }
     
-    @objc func presentLocationPickerForGoingToLocation() {
+    // MARK: - Table view delegate
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.view.endEditing(true)
+        switch indexPath {
+        case IndexPath(row: 0, section: 1):
+            originLocationSelected = true
+            presentLocationPicker()
+        case IndexPath(row: 1, section: 1):
+            destinationLocationSelected = true
+            presentLocationPicker()
+        case IndexPath(row: 3, section: 1):
+            outboundTripDateAndTimeSelected = true
+            outboundTripDateAndTime.isHidden = false
+            presentDatePicker()
+        case IndexPath(row: 4, section: 1):
+            inboundTripDateAndTimeSelected = true
+            inboundTripDateAndTime.isHidden = false
+            presentDatePicker()
+        case IndexPath(row: 5, section: 1):
+            outboundOfferedSeatsStackView.isHidden = false
+            outboundOfferedSeatsTextField.becomeFirstResponder()
+        case IndexPath(row: 6, section: 1):
+            inboundOfferdSeatsStackView.isHidden = false
+            inboundOfferedSeatsTextField.becomeFirstResponder()
+        case IndexPath(row: 7, section: 1):
+            pricePerSeatStackView.isHidden = false
+            pricePerSeatTextField.becomeFirstResponder()
+            
+        default:
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+
+    
+    // MARK: - Private methods
+    
+    private func setUpSwitch() {
+        roundTripSwitch.switchStyle = .light
+        roundTripSwitch.switchSize = .large
+        roundTripSwitch.delegate = self
+        roundTripSwitch.isOn = false
+    }
+    
+    private func setLoclizedTextForLabels() {
+        originLocationLabelHeaderLabel.text = "Origin Location".localized()
+        destinationLocationHeaderLabel.text = "Destination Location".localized()
+        roundTripLabel.text = "Round Trip".localized()
+        outboundTripDateAndTimeHeaderLabel.text = "Trip Date and Time".localized()
+        inboundTripDateAndTimeHeaderLabel.text = "Inbound Trip Date and Time".localized()
+        outboundOfferedSeatsLabel.text = "Trip Offered Seats".localized()
+        inboundOfferedSeatsLabel.text = "Inbound Trip Offered Seats".localized()
+        pricePerSeatLabel.text = "Price per Seat".localized()
+        outboudSeatsLabel.text = "Seats".localized()
+        inboundSeatsLabel.text = "Seats".localized()
+        currencyLabel.text = "JOD".localized()
+        submitRideButton.titleLabel?.text = "SUBMIT".localized()
+    }
+    
+    private func presentLocationPicker() {
         let navController = UINavigationController()
         let locationPickerVC = PickLocationVC()
         locationPickerVC.delegate = self
         navController.viewControllers = [locationPickerVC]
         self.present(navController, animated: true
-            , completion: nil)
-        goingToLabelSelected = true
+            ,completion: nil)
     }
     
-    @objc func presentLocationPickerForLeavingFromLocation() {
-        let navController = UINavigationController()
-        let locationPickerVC = PickLocationVC()
-        locationPickerVC.delegate = self
-        navController.viewControllers = [locationPickerVC]
-        self.present(navController, animated: true
-            , completion: nil)
-        leavingFromLabelSelected = true
-    }
-    
-    @objc func presentDateTimePickerForInboundTripDateTime() {
-        inboundTripDateTimeLabelSelected = true
-        presentDateTimePicker(for: "inbound")
-    }
-    
-    @objc func presentDateTimePickerForOutboundTripDateTime() {
-        outboundTripDateTimeLabelSelected = true
-        presentDateTimePicker(for: "Outbound")
-    }
-    
-    
-    @IBAction func HandleIsRoundTripSwitchValueChange(_ sender: Any) {
-        if let switch_ = sender as? UISwitch {
-            if switch_.isOn {
-                isRoundTrip = true
-                inboundTripDateAndTimeStackView.isHidden = false
-                inboundTripAvailableSeatsStackView.isHidden = false
-            } else {
-                isRoundTrip = false
-                inboundTripDateAndTimeStackView.isHidden = true
-                inboundTripAvailableSeatsStackView.isHidden = true
-            }
-            UIView.animate(withDuration: 0.3) {
-                self.view.layoutIfNeeded()
-            }
-        }
-    }
-    
-    @IBAction func submitRideToDatabase(_ sender: Any) {
-        inboundRide.offeredSeats = Int(inboundRideNumOfOfferdSeats.text!) ?? nil
-        outboundRide.offeredSeats = Int(outboundRideNumOfOfferdSeats.text!) ?? nil
-        outboundRide.pricePerSeat = Float(pricePerSeatLabel.text!) ?? nil
-        outboundRide.maxWaitingTime = Int(maxWaitingTimeLabel.text!) ?? nil
-        outboundRide.availableSeats = outboundRide.offeredSeats
-        
-        if isInputValid() {
-            FirebaseManager.addNewRide(ride: outboundRide)
-            if(isRoundTrip) {
-                inboundRide.leavingFromCity = outboundRide.goingToCity
-                inboundRide.leavingFromNeighborhood = outboundRide.goingToNeighborhood
-                inboundRide.goingToCity = outboundRide.leavingFromCity
-                inboundRide.goingToNeighborhood = outboundRide.leavingFromNeighborhood
-                inboundRide.pricePerSeat = outboundRide.pricePerSeat
-                inboundRide.maxWaitingTime = outboundRide.maxWaitingTime
-                inboundRide.availableSeats = inboundRide.offeredSeats
-                inboundRide.toLatitude = outboundRide.fromLatitude
-                inboundRide.toLongitude = outboundRide.fromLongitude
-                inboundRide.fromLatitude = outboundRide.toLatitude
-                inboundRide.fromLongitude = outboundRide.toLongitude
-                FirebaseManager.addNewRide(ride: inboundRide)
-            }
-            SVProgressHUD.showSuccess(withStatus: "   Done   ")
-        }
-    }
-    
-    // MARK: - Private Methods
-    
-    fileprivate func presentWarning(_ warningMessage: String) {
-        warningLabel.text = warningMessage
-        warningLabel.isHidden = false
-        hapticNotification.notificationOccurred(.error)
-    }
-    
-    fileprivate func presentDateTimePicker(for trip: String) {
-        let min = Date().addingTimeInterval(-1)
-        let max = Date().addingTimeInterval(60 * 60 * 24 * 365)
-        
-        let picker = DateTimePicker.create(minimumDate: min, maximumDate: max)
-        picker.show()
-        picker.timeInterval = DateTimePicker.MinuteInterval.five
-        if #available(iOS 11.0, *) {
-            picker.highlightColor = UIColor(named: "uberBlue")!
-            picker.darkColor = UIColor(named: "uberBlack")!
-            picker.doneBackgroundColor = UIColor(named: "uberBlack")!
-        } else {
-            // Fallback on earlier versions
-        }
-        picker.doneBackgroundColor = .black
-        picker.todayButtonTitle = "Today"
-        picker.is12HourFormat = true
-        picker.dateFormat = "hh:mm aa dd/MM/YYYY"
-        picker.includeMonth = true
-        picker.completionHandler = { date in
-            let formatter = DateFormatter()
-            formatter.dateFormat = "hh:mm aa dd/MM/YYYY"
-            if(self.outboundTripDateTimeLabelSelected) {
-                self.outboundRide.dateAndTime = date
-                self.outboundTripDateTimeLabel.text = formatter.string(from: date)
-                self.outboundTripDateTimeLabelSelected = false
-            } else if (self.inboundTripDateTimeLabelSelected) {
+    private func presentDatePicker() {
+        let alert = UIAlertController(style: .actionSheet, title: "Select date and time".localized())
+        alert.addDatePicker(mode: .dateAndTime, date: Date(), minimumDate: Date(timeIntervalSinceNow: 900), maximumDate: Date().addingTimeInterval(60 * 60 * 24 * 365)) { date in
+            if(self.inboundTripDateAndTimeSelected) {
+                self.inboundTripDateAndTime.text = date.getLocalizedDateTimeString()
                 self.inboundRide.dateAndTime = date
-                self.inboundTripDateTimeLabelSelected = false
-                self.inboundTripDateTimeLabel.text  = formatter.string(from: date)
+                self.inboundTripDateAndTimeSelected = false
+            } else {
+                self.outboundTripDateAndTime.text = date.getLocalizedDateTimeString()
+                self.outboundRide.dateAndTime = date
+                self.outboundTripDateAndTimeSelected = false
             }
         }
-        picker.delegate = self
-        self.dateTimePicker = picker
+        alert.addAction(title: "Pick".localized(), style: .default)
+        alert.show()
     }
     
     private func isInputValid() -> Bool {
-        warningLabel.isHidden = true
-        var warningMessage = ""
         if outboundRide.goingToCity == nil || outboundRide.leavingFromCity == nil {
-            warningMessage =  "Please select source and destination locations."
-            presentWarning(warningMessage)
+            warningLabel.text =  "Please select source and destination locations."
             return false
         } else if outboundRide.dateAndTime == nil {
-            warningMessage = "Please provide date and time for the ride."
-            presentWarning(warningMessage)
+            warningLabel.text = "Please provide date and time for the ride."
             return false
         } else if isRoundTrip && inboundRide.dateAndTime == nil {
-            warningMessage = "Please provide date and time for the return ride."
-            presentWarning(warningMessage)
+            warningLabel.text = "Please provide date and time for the return ride."
             return false
         } else if outboundRide.offeredSeats == nil {
-            warningMessage = "Please specify the number of offered seats for the ride."
-            presentWarning(warningMessage)
+            warningLabel.text = "Please specify the number of offered seats for the ride."
             return false
         } else if isRoundTrip && inboundRide.offeredSeats == nil {
-            warningMessage = "Please specify the number of offered seats for the return ride."
-            presentWarning(warningMessage)
+            warningLabel.text = "Please specify the number of offered seats for the return ride."
             return false
         } else if outboundRide.pricePerSeat == nil {
-            warningMessage = "Please specify a price per seat for the ride."
-            presentWarning(warningMessage)
-            return false
-        } else if outboundRide.maxWaitingTime == nil {
-            warningMessage = "Please specify a maximum wait time for the riders of the ride."
-            presentWarning(warningMessage)
+            warningLabel.text = "Please specify a price per seat for the ride."
             return false
         }
         return true
     }
     
-    // MARK: - DateTimePickerDelegate
-    
-    func dateTimePicker(_ picker: DateTimePicker, didSelectDate: Date) {
-        if outboundTripDateTimeLabelSelected {
-            outboundTripDateTimeLabel.text = picker.selectedDateString
-        } else if inboundTripDateTimeLabelSelected {
-            inboundTripDateTimeLabel.text = picker.selectedDateString
+    private func setUpInboundRide() {
+        inboundRide.leavingFromCity = outboundRide.goingToCity
+        inboundRide.leavingFromNeighborhood = outboundRide.goingToNeighborhood
+        inboundRide.goingToCity = outboundRide.leavingFromCity
+        inboundRide.goingToNeighborhood = outboundRide.leavingFromNeighborhood
+        inboundRide.pricePerSeat = outboundRide.pricePerSeat
+        inboundRide.maxWaitingTime = outboundRide.maxWaitingTime
+        inboundRide.availableSeats = inboundRide.offeredSeats
+        inboundRide.toLatitude = outboundRide.fromLatitude
+        inboundRide.toLongitude = outboundRide.fromLongitude
+        inboundRide.fromLatitude = outboundRide.toLatitude
+        inboundRide.fromLongitude = outboundRide.toLongitude
+    }
+
+    private func presentSnackbar() {
+        guard let snackbarController = snackbarController else {
+            return
         }
+        snackbarController.snackbar.text = "Ride has been submitted"
+        snackbarController.snackbar.backgroundColor = #colorLiteral(red: 0.1220000014, green: 0.7289999723, blue: 0.8389999866, alpha: 1)
+        snackbarController.animate(snackbar: .visible, delay: 1)
+        snackbarController.animate(snackbar: .hidden, delay: 5)
     }
     
-    // MARK: - PickLocationVCDeleagte
+    // - MARK: Actions & Handlers
     
+    @IBAction func submitRide(_ sender: Any) {
+        presentSnackbar()
+        outboundRide.offeredSeats = Int(outboundOfferedSeatsTextField.text!) ?? nil
+        inboundRide.offeredSeats = Int(inboundOfferedSeatsTextField.text!) ?? nil
+        outboundRide.pricePerSeat = Float(pricePerSeatTextField.text!) ?? nil
+        if isInputValid() {
+            FirebaseManager.addNewRide(ride: outboundRide)
+            if(isRoundTrip) {
+                setUpInboundRide()
+                FirebaseManager.addNewRide(ride: inboundRide)
+            }
+            SVProgressHUD.show()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                SVProgressHUD.dismiss()
+                self.presentSnackbar()
+            }
+        } else {
+            warningIsOn = true
+            tableView.beginUpdates()
+            tableView.endUpdates()
+            hapticNotification.notificationOccurred(.error)
+            tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 10.0) {
+                self.warningIsOn = false
+                self.tableView.beginUpdates()
+                self.tableView.endUpdates()
+            }
+        }
+    }
+}
+
+extension OfferRideVC: SwitchDelegate {
+    func switchDidChangeState(control: Switch, state: SwitchState) {
+        isRoundTrip = control.isOn
+        if(isRoundTrip) {
+            outboundTripDateAndTimeHeaderLabel.text = "Outbound Trip Date and Time".localized()
+            outboundOfferedSeatsLabel.text = "Outbound Trip Offered Seats".localized()
+        } else {
+            outboundTripDateAndTimeHeaderLabel.text = "Trip Date and Time".localized()
+            outboundOfferedSeatsLabel.text = "Trip Offered Seats".localized()
+        }
+        tableView.beginUpdates()
+        tableView.endUpdates()
+    }
+}
+
+extension OfferRideVC: PickLocationVCDelegate {
     func didFinishPickingLocation(location: Location) {
-        if(leavingFromLabelSelected) {
+        if(originLocationSelected) {
             outboundRide.leavingFromCity = location.cityFirDBKey
             outboundRide.leavingFromNeighborhood = location.neighborhoodFirDBKey
             outboundRide.fromLatitude = location.coordinates.latitude.magnitude
             outboundRide.fromLongitude = location.coordinates.longitude.magnitude
-            leavingFromLabel.text =  "From:  \(location.neighborhood) - \(location.city)"
-            leavingFromLabelSelected = false
-        } else if (goingToLabelSelected) {
+            originLocationSelected = false
+            originLocationLabel.text = "\(location.neighborhood) - \(location.city)".uppercased()
+            originLocationLabel.isHidden = false
+        } else if (destinationLocationSelected) {
             outboundRide.goingToCity = location.cityFirDBKey
             outboundRide.goingToNeighborhood = location.neighborhoodFirDBKey
             outboundRide.toLatitude = location.coordinates.latitude.magnitude
             outboundRide.toLongitude = location.coordinates.longitude.magnitude
-            goingToLabel.text =  "To:  \(location.neighborhood) - \(location.city)"
-            goingToLabelSelected = false
-        }
-        UIView.animate(withDuration: 0.4) {
-            self.view.layoutIfNeeded()
+            destinationLocationSelected = false
+            destinationLocationLabel.text = "\(location.neighborhood) - \(location.city)".uppercased()
+            destinationLocationLabel.isHidden = false
         }
     }
 }
+
+
+extension OfferRideVC: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+}
+

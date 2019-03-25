@@ -32,8 +32,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             window?.rootViewController = loginVC
         } else {
             let navController = UINavigationController()
-            let mainVC = TabBarVC()
-            navController.viewControllers = [mainVC]
+            let tabBarStoryboard = UIStoryboard(name: "TabBar", bundle: nil)
+            let tabBarVC = tabBarStoryboard.instantiateInitialViewController() as! UITabBarController
+            navController.viewControllers = [tabBarVC]
             window?.rootViewController = navController
         }
         window?.makeKeyAndVisible()
@@ -54,6 +55,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if(Localize.currentLanguage() == "ar") {
             UIView.appearance().semanticContentAttribute = .forceRightToLeft
+            UserDefaults.standard.set("ar", forKey: "AppleLanguages")
+            UserDefaults.standard.set("ar", forKey: "i18n_language")
         } else {
             UIView.appearance().semanticContentAttribute = .forceLeftToRight
         }

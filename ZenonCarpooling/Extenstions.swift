@@ -12,6 +12,7 @@ import AVFoundation
 import Localize_Swift
 import UIKit
 import GooglePlacePicker
+import Material
 
 extension Date {
     func dayOfWeek() -> String? {
@@ -224,9 +225,9 @@ extension UIButton {
 }
 
 
-extension UITextField{
+extension UITextField {
     
-    @IBInspectable var doneAccessory: Bool{
+    @IBInspectable var doneAccessory: Bool {
         get{
             return self.doneAccessory
         }
@@ -289,6 +290,12 @@ extension UISearchController {
     open override func viewDidLoad() {
         searchBar.tintColor = .white
         
+    }
+}
+
+extension SnackbarController {
+    override open var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
 }
 

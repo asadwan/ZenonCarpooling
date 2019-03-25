@@ -16,8 +16,8 @@ class SearchRideVC: UIViewController, CLLocationManagerDelegate, UISearchBarDele
     
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var mapView: GMSMapView!
-    var markers: [GMSMarker]!
-    var rides: [Ride]?
+    var markers = [GMSMarker]()
+    var rides: [Ride] = [Ride]()
 
     var locationManager = CLLocationManager()
     var firebaseManager = FirebaseManager()
@@ -30,7 +30,7 @@ class SearchRideVC: UIViewController, CLLocationManagerDelegate, UISearchBarDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        searchBar.showsCancelButton = true
         searchBar.delegate = self
         firebaseManager.delegate = self
         locationManager.delegate = self
@@ -40,12 +40,11 @@ class SearchRideVC: UIViewController, CLLocationManagerDelegate, UISearchBarDele
         setUpMapView()
         
         tabBarController?.navigationItem.title = "Find a Ride".localized()
-        
-        
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        view.endEditing(true)
         tabBarController?.navigationItem.title = "Find a Ride".localized()
         if Auth.auth().currentUser?.uid == nil {
             handleSignOut()
@@ -60,14 +59,11 @@ class SearchRideVC: UIViewController, CLLocationManagerDelegate, UISearchBarDele
         mapView.settings.compassButton = true
         mapView.settings.myLocationButton = true
         mapView.isMyLocationEnabled = true
-        
     }
     
     private func setUpMapMarkers() {
-        if let rides = rides {
-            for ride in rides {
-                setUpRideMarker(ride: ride)
-            }
+        for ride in rides {
+            setUpRideMarker(ride: ride)
         }
     }
     
@@ -77,6 +73,7 @@ class SearchRideVC: UIViewController, CLLocationManagerDelegate, UISearchBarDele
             marker.icon = UIImage(named: "ride_marker")
             marker.userData = ride
             marker.position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+            markers.append(marker)
             marker.map = self.mapView
         }
     }
@@ -108,9 +105,22 @@ class SearchRideVC: UIViewController, CLLocationManagerDelegate, UISearchBarDele
     // MARK: - UISearchBarDelegate
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.endEditing(true)
+        self.dismissKeyboard()
     }
     
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+        let customSearchVC = CustomSearchVC(nibName: "CustomSearchVC", bundle: nil)
+        customSearchVC.providesPresentationContextTransitionStyle = true
+        customSearchVC.definesPresentationContext = true
+        customSearchVC.modalPresentationStyle = .overCurrentContext
+        customSearchVC.modalTransitionStyle = .crossDissolve
+        customSearchVC.modalPresentationCapturesStatusBarAppearance = true
+        customSearchVC.delegate = self
+        present(customSearchVC, animated: true) {
+            self.tabBarController?.navigationItem.leftBarButtonItem = nil
+        }
+        return true
+    }
     // MARK: - LocationManager delagate methods
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -139,5 +149,18 @@ extension SearchRideVC: GMSMapViewDelegate {
         infoWindow.dayLabel.text = ride.dateAndTime?.dayOfWeek()
         infoWindow.timeLabel.text = ride.dateAndTime?.getTimeString()
         return infoWindow
+    }
+}
+
+extension SearchRideVC: RideSearchVCDelegate {
+    func didFinishSearching(rides results: [Ride]) {
+        self.rides = results
+        self.setUpMapMarkers()
+        var bounds = GMSCoordinateBounds()
+        for marker in self.markers {
+            bounds = bounds.includingCoordinate(marker.position)
+        }
+        let mapUpdate = GMSCameraUpdate.fit(bounds,withPadding: 60)
+        self.mapView.animate(with: mapUpdate)
     }
 }

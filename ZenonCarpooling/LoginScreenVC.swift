@@ -138,7 +138,8 @@ class LoginScreenVC: UIViewController, UITextFieldDelegate, FBSDKLoginButtonDele
                 }
                 
                 SVProgressHUD.dismiss()
-                let tabBarVC = TabBarVC()
+                let tabBarStoryboard = UIStoryboard(name: "TabBar", bundle: nil)
+                let tabBarVC = tabBarStoryboard.instantiateInitialViewController() as! UITabBarController
                 let navController = UINavigationController()
                 navController.viewControllers = [tabBarVC]
                 tabBarVC.modalTransitionStyle = .flipHorizontal

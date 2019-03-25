@@ -13,6 +13,7 @@
 "Are you sure?" = "Are you sure?";
 "Yes" = "Yes";
 "No" = "No";
+"Pick" = "Pick";
 "Cancel" = "Cancel";
 "Language" = "Language";
 "Profile" = "Edit Account";
@@ -28,5 +29,18 @@
 "Offer a Ride" = "Offer a Ride";
 "Chat" = "Chat";
 
-"Leaving From" = "Leaving From";
-
+"Origin Location" = "Origin Location";
+"Destination Location" = "Destination Location";
+"Round Trip" = "Round Trip";
+"Trip Date and Time" = "Trip Date and Time";
+"Outbound Trip Date and Time" = "Outbound Trip Date and Time";
+"Inbound Trip Date and Time" = "Inbound Trip Date and Time";
+"Trip Offered Seats" = "Trip Offered Seats";
+"Outbound Trip Offered Seats" = "Outbound Trip Offered Seats";
+"Inbound Trip Offered Seats" = "Inbound Trip Offered Seats";
+"Price per Seat" = "Price per Seat";
+"Seats" = "Seats";
+"JOD" = "JOD";
+"Ride Details" = "Ride Details";
+"SUBMIT" = "SUBMIT";
+"Select date and time" = "Select date and time";

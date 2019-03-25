@@ -23,7 +23,7 @@ class PickLocationVC: UITableViewController, GMSPlacePickerViewControllerDelegat
     
     // MARK: - Properites
     
-    var cities = [City]()
+    private var cities = [City]()
     
     var delegate: PickLocationVCDelegate?
     
@@ -57,14 +57,14 @@ class PickLocationVC: UITableViewController, GMSPlacePickerViewControllerDelegat
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return cities[section].nieghborhoods.count
+        return cities[section].neighborhoods.count
     }
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
-        let neighborhood = cities[indexPath.section].nieghborhoods[indexPath.row]
-      
+        let neighborhood = cities[indexPath.section].neighborhoods[indexPath.row]
+        cell.textLabel?.textAlignment = .natural
         cell.textLabel?.text = Localize.currentLanguage() == "en" ? neighborhood.englishName : neighborhood.arabicName
         return cell
     }
@@ -78,7 +78,7 @@ class PickLocationVC: UITableViewController, GMSPlacePickerViewControllerDelegat
     func placePicker(_ viewController: GMSPlacePickerViewController, didPick place: GMSPlace) {
         let selectedRowIndexPath = tableView.indexPathForSelectedRow
         let city = cities[selectedRowIndexPath!.section]
-        let neighborhood = cities[selectedRowIndexPath!.section].nieghborhoods[selectedRowIndexPath!.row]
+        let neighborhood = cities[selectedRowIndexPath!.section].neighborhoods[selectedRowIndexPath!.row]
         var cityName: String
         var neighborhoodName: String
         if(Localize.currentLanguage() == "ar") {
@@ -90,15 +90,14 @@ class PickLocationVC: UITableViewController, GMSPlacePickerViewControllerDelegat
         }
         
         let location = Location(city: cityName, neighborhood: neighborhoodName, coordinates: place.coordinate, neighborhoodFirDBKey: neighborhood.neighborhoodKey, cityFirDBKey: city.cityKey)
-        navigationController?.dismiss(animated: true, completion: nil)
         delegate?.didFinishPickingLocation(location: location)
-        
+        navigationController?.dismiss(animated: true, completion: nil)
     }
     
     // MARK: - Table view delegate
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedNeighborhood = cities[indexPath.section].nieghborhoods[indexPath.row]
+        let selectedNeighborhood = cities[indexPath.section].neighborhoods[indexPath.row]
         let coordinates1 = CLLocationCoordinate2D(latitude: selectedNeighborhood.latitude + 0.007, longitude: selectedNeighborhood.longitude)
         let coordinates2 = CLLocationCoordinate2D(latitude: selectedNeighborhood.latitude - 0.007, longitude: selectedNeighborhood.longitude)
         let vp = GMSCoordinateBounds(coordinate: coordinates1, coordinate: coordinates2)
@@ -129,7 +128,7 @@ class PickLocationVC: UITableViewController, GMSPlacePickerViewControllerDelegat
                                 let latitude = neighborhoodJson["latitude"] as! Double
                                 let longitude = neighborhoodJson["longitude"] as! Double
                                 let neighborhood = Neighborhood(neighborhoodKey: neighborhoodKey, arabicName: arabicName, englishName: englishName, longitude: longitude, latitude: latitude)
-                                city.nieghborhoods.append(neighborhood)
+                                city.neighborhoods.append(neighborhood)
                             }
                         }
                     }
@@ -139,7 +138,7 @@ class PickLocationVC: UITableViewController, GMSPlacePickerViewControllerDelegat
             DispatchQueue.main.async {
                 SVProgressHUD.dismiss()
                 self.cities.forEach({ (city) in
-                    city.nieghborhoods.sort(by: { (n1, n2) -> Bool in
+                    city.neighborhoods.sort(by: { (n1, n2) -> Bool in
                         n1.englishName < n2.englishName
                     })
                 })

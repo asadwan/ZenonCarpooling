@@ -47,7 +47,7 @@ class ChatVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UITe
         self.tableView.scrollIndicatorInsets.bottom = self.barHeight
         self.navigationItem.title = "\(self.currentUser?.firstName ?? "") \(self.currentUser?.lastName ?? "")"
         self.navigationItem.setHidesBackButton(true, animated: false)
-        let icon = UIImage.init(named: "back")?.withRenderingMode(.alwaysOriginal)
+        let icon = UIImage(named: "back_white")?.withRenderingMode(.alwaysOriginal).imageFlippedForRightToLeftLayoutDirection()
         let backButton = UIBarButtonItem.init(image: icon!, style: .plain, target: self, action: #selector(self.dismissSelf))
         self.navigationItem.leftBarButtonItem = backButton
         self.locationManager.delegate = self
@@ -156,6 +156,7 @@ class ChatVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UITe
     }
     
     //MARK: NotificationCenter handlers
+    
     @objc func showKeyboard(notification: Notification) {
         if let frame = notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let height = frame.cgRectValue.height
